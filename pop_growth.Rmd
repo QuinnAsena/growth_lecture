@@ -83,7 +83,7 @@ $$N_{t+1} = N_t + B - D + I - E$$
 --
 
 
-If we assume that immigration and emmigration are equal, then the change in population size is:
+If we assume that immigration and emigration are equal, then the change in population size is:
 
 $$\Delta N = B - D$$
 ---
@@ -706,7 +706,7 @@ Environmental stochasticity
 .pull-right[
 Demographic stochasticity
 - By chance a population might have a run of births or a run of deaths
-- Demographic stochasticity includes the probability of births and deaths in the parmeter $r$
+- Demographic stochasticity includes the probability of births and deaths in the parameter $r$
 ]
 
 - Variability can also be included in $K$, the carrying capacity!
@@ -798,7 +798,7 @@ We have looked at:
   - Different notation and descriptions of $r$
   - Mathematical differences 
 
-- Many diferent population growth equations
+- Many different population growth equations
   - We have not talked about the model $N_{t+1} = \lambda N_t\left(1- \frac{N_t}{K} \right)$. I recommend reading about it
   - Concepts can be transferable but be aware while reading results may not be the same
   
@@ -813,6 +813,6 @@ class: inverse, middle, center
 
 
 
-<!-- <iframe src="https://quinnasena.shinyapps.io/r_logistic/" width="100%" height="1024px"></iframe> -->
+<!-- <iframe src="https://quinnasena.shinyapps.io/r_logistic/" width="100%" height="1024px"></frame> -->
 
 <!-- pagedown::chrome_print("pop_growth.Rmd", "growth_app/www/pop_growth.pdf")
