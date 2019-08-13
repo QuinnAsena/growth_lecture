@@ -1,0 +1,27 @@
+---
+#title: "equation guide"
+#author: "quinn_asena"
+#date: "28 March 2019"
+#output: html_document
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+```
+
+##### __Equation Guide__
+
+* $N$ is the population at a given time-step (t)  
+* $r_d$ is the descrete growth factor. 
+    * $r=0$ is no growth
+    * $r>0$ is positive growth 
+    * $r<0$ is negative growth
+* $K$ is the carrying capacity
+
+
+##### __Limit Cycles and Chaos__
+* $r_d < 2.000$ population reaches $K$ with dampening oscillations
+* $2.000 < r_d < 2.449$: two point stable limit cycle
+* $2.449 < r_d < 2.570$: limit cycle increase geometrically (2, 4, 6, 8...)
+* $r_d > 2.570$: aperiodic (irregular) patterns known as chaos.
+

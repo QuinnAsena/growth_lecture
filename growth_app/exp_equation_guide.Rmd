@@ -1,0 +1,17 @@
+---
+#title: "equation guide"
+#author: "quinn_asena"
+#date: "28 March 2019"
+#output: html_document
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+```
+
+##### __Equation Guide__
+
+* $N$ is the population at a given time-step (t)  
+* $r$ is the discrete growth factor
+    * $r > 0$ is positive growth 
+    * $r < 0$ is negative growth

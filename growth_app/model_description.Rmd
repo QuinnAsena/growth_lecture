@@ -1,0 +1,76 @@
+---
+bibliography: library.bib
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Model Description
+
+Many population growth models exist in the biological and ecological literature. These equations are also are used to describe a wide range of topics beyond population growth. Here we can explore two simple versions of **deterministic, discrete, density dependent, logistic growth models**. By discrete we mean that we are not using a continuous growth equation ( e.g. $\frac{dN}{Dt} = rN\left(1- \frac{N_t}{K} \right)$ ) but discrete difference equations (equations 1 and 2 below) that are discrete in time (denoted by $N_t$, indicating the size of the population at the current time-step, and $N_{t+1}$ indicating the size of the population at the next time-step). By deterministic we mean that no stochasticity (random variability) is included, i.e. for any given set of model parameters (inputs) the resulting population growth will always be the same. And by density dependent we mean that there is a defined limit ($K$) to a population's growth and as this limit is approached the growth rate of the poulation declines eventually to 0.
+
+The aim of this page is to provide a basic introduction to population models that can be interactively explored but not to attempt a detailed mathematical explanation or exploration of complicated population models. This can be used as an accompaniment to the academic literature as the models can be set up to reflect figures presented in, for examply, Gillman (2005), Gillman (2009), and Gotelli (2001) and experimented with. This can also be used for demonstration purpose in lectures or tutorials, or as a student resource. All the information here is compiled from the references supplied at the end which provide detailed information on population growth models including calculating values for $r$, the relationship between $r$ and $\lambda$, and the effect of introducing stochasticity into the growth rate ($r$) and carrying capacity terms ($K$).
+
+In the model tabs we can investigate the effect of different growthrates, starting populations and carrying capacities on a logistically growing population. It is important to note at this point that these equations represent an idealised population, exsisting in an idealised envoronment, that reproduces at a constant rate for every time-step.
+
+In both model tabs the first (upper) graph shows the population size at a given time and the second (lower) graph shows the rate at which the population is changing discribed simply as the differnce in population per time-step ($N_{t+1} - N_t$). The rate at which a population grows depends on: (a) the size of the population ($N$); and (b) how close the population is to its limit ($K$). The population grows fastest at $K/2$ (this is approximate in the discrete model) as there are the maximum number of reproducing individuals relative to the resources available.
+
+
+__Equation 1__ [@Gotelli2001]:
+$$N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)$$
+
+Where:
+
+* $N$ is the population at a given time-step (t)  
+* $r_d$ is the descrete growth factor. 
+    * $r=0$ is no growth
+    * $r>0$ is positive growth 
+    * $r<0$ is negative growth
+* $K$ is the carrying capacity
+
+This equation has three points of stability: $K$, $N=0$, and $r=0$ . At these points the population has either reached its maximum capacity for the environment, is extinct (or extirpated), or maintains its size without growing or declining.
+
+
+
+__Equation 2__ [@Gillman2005; @Gillman2009]:
+$$N_{t+1} = \lambda N_t\left(1- \frac{N_t}{K} \right)$$
+Where:
+
+* $N$ is the population at a given time-step (t)  
+* $\lambda$ is the finite rate of increase
+    * $\lambda \gtrapprox 1.02$ is positive growth 
+    * $\lambda \lessapprox 1.01$ is negative growth
+* $K$ is the carrying capacity
+
+Note that in this density dependent model there are two points of stability: $N=0$ (extinction or extirpation) and $K$. Unlike equation 1, in equation 2, $K$ changes depending on the growth rate $\lambda$. For Example, if $\lambda = 2$ the population stabalises at $K/2$. This is not the case for the continuous exponential model which is not covered here.
+
+#### Limit cycles and chaos:
+A topic that has fascinated scientists from many disciplines is how simple equations can give rise to complex dynamics. This is far beyond the scope of this page however can be explored in the models by altering the growth rates. While demonstrations of populations growing chaotically are rare, non-linearities and chaos in general are not and we can produce these dynamics in these simple equations. The following values can be input in the model tabs to see the effect:
+
+In equation 1 (r discrete model tab)
+* $r_d < 2.000$ population reaches $K$ with dampening oscillations
+* $2.000 < r_d < 2.449$: two point stable limit cycle
+* $2.449 < r_d < 2.570$: limit cycle increase geometrically (2, 4, 6, 8...)
+* $r_d > 2.570$: aperiodic (irregular) patterns known as chaos.
+
+In equation 2 (Lambda discrete model tab)
+* $\lambda < 3$ population reaches $K$ with dampening oscillations
+* $3.0 < \lambda < 3.4$: two point stable limit cycle
+* $3.4 < \lambda \lessapprox 3.6$: limit cycle increase geometrically (2, 4, 6, 8...)
+* $\lambda \gtrapprox 3.6$: aperiodic (irregular) patterns known as chaos.
+
+
+
+#### Model Assumptions [@Gotelli2001]:
+
+* __Growth is continuous without time lags:__ individuals are conisdered as being born and dying continuously and the rate of increase instantaneously as population size increases without descrete generations. Growth rate remains constant through time without stochasticity.
+* __No age, size or sex structure:__ birth and death rates of the population do not change with the age or body size of individuals. Every individual added to the population is immediately repruductive and does not have life stages of greater or lower reproductivity. This assumption is more realistically relaxed for modelling bacteria or protozoa for example. 
+* __No genetic structure:__ Individuals in the population are assumed to have the same birth and death rates and no underlying variation exists.
+* __Carrying capacity:__ Resource availablility remains constant through time excluding any variability or stochasticity.
+* __Linear density dependence:__ for every individual added to the population the per capita rate of population growth decreases linearly to 0 when $N$ equals $K$.
+* __No immigration or emigration:__ immigration and emigration of individuals is assumed to not occur or be equal.
+
+More complicated variations of these modells addresss the limitations of assumptions outlined above. In reality violating some of these assumption could be fatal to the accuracy of population projections depending on the population of interest although they show in basic terms the principles of logistic population growth.
+
+#### References

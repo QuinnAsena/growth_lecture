@@ -1,0 +1,13 @@
+---
+#title: "model_text"
+#author: "quinn_asena"
+#date: "28 March 2019"
+#output: html_document
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Discrete population growth model:
+$N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)$

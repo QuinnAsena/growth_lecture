@@ -1,0 +1,23 @@
+---
+#title: "equation guide"
+#author: "quinn_asena"
+#date: "28 March 2019"
+#output: html_document
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+```
+
+##### __Equation Guide__
+
+* $N$ is the population at a given time-step (t)  
+* $r_d$ is the mean descrete growth factor for a normal distribution from which $r$ is drawn. 
+    * $r=0$ is no growth
+    * $r>0$ is positive growth 
+    * $r<0$ is negative growth
+* $K$ is the carrying capacity
+* $r$ SD is the standard deviation of the normal distribution for which $r_d$ is the mean
+
+
+In this example stochasticity is simply included by drawing the value of $r$ from a gaussian distribution per time-step.
