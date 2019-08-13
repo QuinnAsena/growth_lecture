@@ -3,7 +3,7 @@ title: "Welcome to Population Ecology!"
 subtitle: "⚔<br/>"
 author: ""
 institute: ""
-date: "17/04/2019"
+date: "14/08/2019"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -814,3 +814,5 @@ class: inverse, middle, center
 
 
 <!-- <iframe src="https://quinnasena.shinyapps.io/r_logistic/" width="100%" height="1024px"></iframe> -->
+
+<!-- pagedown::chrome_print("pop_growth.Rmd", "growth_app/www/pop_growth.pdf")
