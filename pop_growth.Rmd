@@ -193,7 +193,7 @@ The differential equation tells us growth __rate__ not population size
 
 ---
 #Exponential growth
-The pooulation of an exponentially growing population at a given time $t$ can be worked out by:
+The population of an exponentially growing population at a given time $t$ can be worked out by:
 
 $$N_t = N_0e^{rt}$$
 Look familiar from assignment 1?
