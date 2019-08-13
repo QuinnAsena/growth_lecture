@@ -249,3 +249,4 @@ server <- function(input, output){
 
 shinyApp(ui = ui, server = server)
 
+#pagedown::chrome_print("pop_growth.Rmd", "growth_app/www/pop_growth.pdf")
