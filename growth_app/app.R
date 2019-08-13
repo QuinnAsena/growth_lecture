@@ -1,3 +1,4 @@
+# Author: Quinn Asena
 library(shiny)
 library(grDevices)
 library(knitr)
