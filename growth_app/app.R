@@ -2,7 +2,7 @@
 library(shiny)
 library(grDevices)
 library(knitr)
-library(tidyverse)
+library(ggplot2)
 library(data.table)
 #setwd("C:/Users/qase352/Dropbox/QuinnAsenaPhD/R/pop_growth_lecture/growth_app")
 ui <- fluidPage(

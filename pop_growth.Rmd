@@ -3,7 +3,7 @@ title: "Welcome to Population Ecology!"
 subtitle: "⚔<br/>"
 author: ""
 institute: ""
-date: "14/08/2019"
+date: "14/08/2020"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -98,7 +98,7 @@ $$\Delta N = B - D$$
 ]
 
 .pull-right[
-- More deaths than births the population dies
+- More deaths than births the population declines
 
 {{content}}
 ]
@@ -215,7 +215,7 @@ $r_d$ = discrete growth factor
 
 .pull-left[
 
-Theoretical populations of populations growing (and declining) as a result of different values of $r$
+Theoretical populations growing and declining as a result of different values of $r$
 
 - $r=0$ no growth
 - $r>0$ positive growth 
@@ -323,7 +323,7 @@ Mangrove    | 0.00055                             | 3.5 years
 Southern beech | 0.000075                         | 25.3 years
 ---
 #Growth rates
-Population increases exponentially but __Growth rate__ over __population size__ increases proportionately with the population
+Population increases exponentially but __Growth rate__ over __population size__ increases proportionally with the population
 
 ```{r plot-chunk1, echo = FALSE, fig.width=5, fig.height=5,fig.show='hold'}
 r_exp.fun <- function(r = 0.05, N_pop = 10, t = 100)
@@ -379,13 +379,14 @@ ggplot(exp_pop_dat, aes(x = exp_pop, y = growth_rate))+
 
 - The doubling time depends on the growth rate $r$ and is _not_ every year
 
-- Surely no species can grow forever exponentially?!?!?!
+- ﴾͡๏̯͡๏﴿  Surely no species can grow forever exponentially?!?!?!
  - _Correct!_ Welcome to part 2, __density dependence__
 
 ---
 class: inverse, middle, center
 
 #Take 5 minutes to discuss the assumptions of the exponential growth model
+( ͡° ͜ʖ ͡°)
 
 ---
 class: inverse, middle, center
@@ -495,7 +496,7 @@ logistic_pop <- logistic_pop %>%
   mutate(time = 1:n())
 
 ggplot(logistic_pop, aes(x = time, y = pop))+
-  geom_line(show.legend = FALSE, colour = "red")+
+  geom_line(show.legend = FALSE, colour = "black")+
   #annotate("text", x = 50, y = c(500), label = c("r = 0.05"))+
   ylab("Population size (N)")+
   theme_minimal()
@@ -577,14 +578,14 @@ logistic_pop_dat <- logistic_pop_dat %>%
 
 
 ggplot(logistic_pop, aes(x = time, y = pop))+
-  geom_line(show.legend = FALSE, colour = "red")+
+  geom_line(show.legend = FALSE, colour = "black")+
   annotate("text", x = 50, y = c(500), label = c("r = 0.05"))+
   ylab("Population size (N)")+
   theme_minimal()
 
 
 ggplot(logistic_pop_dat, aes(x = logistic_pop_dat, y = growth_rate))+
-  geom_line(show.legend = FALSE, colour = "red")+
+  geom_line(show.legend = FALSE, colour = "black")+
   annotate("text", x = 500, y = c(15), label = c("r = 0.02"))+
   xlab("Population size (N)")+
   ylab("rate of change (dN/dt)")+
@@ -594,11 +595,11 @@ ggplot(logistic_pop_dat, aes(x = logistic_pop_dat, y = growth_rate))+
 ---
 #Logistic growth
 .pull-left[
-Logistic growth rate vs population size
+**Logistic** growth rate vs population size
 ]
 
 .pull-right[
-Exponential growth rate vs population size
+**Exponential** growth rate vs population size
 ]
 
 
@@ -658,7 +659,7 @@ logistic_pop_dat <- logistic_pop_dat %>%
 
 
 ggplot(logistic_pop_dat, aes(x = logistic_pop_dat, y = growth_rate))+
-  geom_line(show.legend = FALSE, colour = "red")+
+  geom_line(show.legend = FALSE, colour = "black")+
   annotate("text", x = 500, y = c(15), label = c("r = 0.02"))+
   xlab("Population size (N)")+
   ylab("rate of change (dN/dt)")+
@@ -682,6 +683,7 @@ ggplot(exp_pop_dat, aes(x = exp_pop, y = growth_rate))+
 class: inverse, middle, center
 
 #Take 5 minutes to discuss the assumptions of the logistic growth model
+(ᵔᴥᵔ)
 
 ---
 
@@ -708,6 +710,8 @@ Demographic stochasticity
 - By chance a population might have a run of births or a run of deaths
 - Demographic stochasticity includes the probability of births and deaths in the parameter $r$
 ]
+
+--
 
 - Variability can also be included in $K$, the carrying capacity!
 
@@ -808,9 +812,22 @@ We have looked at:
 
 ---
 
+# Top tips for the assignment
+
+- Attend labs and office hours
+
+- Understand the two key graphs: population vs time and growth-rate vs population
+
+- Use the app to understand different parameters (but do not use screenshots from the app for your assignment)
+
+- Rubbish in rubbish out. If model outputs look crazy or the numbers don't make logical sense then double check your inputs and equations.
+
+---
+
 class: inverse, middle, center
 
 #Go forth and model!!!
+\ (•◡•) /
 
 
 
