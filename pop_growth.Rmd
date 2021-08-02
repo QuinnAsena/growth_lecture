@@ -193,14 +193,14 @@ The differential equation tells us growth __rate__ not population size
 
 ---
 #Exponential growth
-The population of an exponentially growing population at a given time $t$ can be worked out by:
+The abundance of an exponentially growing population at a given time $t$ can be worked out by:
 
 $$N_t = N_0e^{rt}$$
 Look familiar from assignment 1?
 
 --
 
-The discrete version of the exponential equation tells us the number added to the population per time-step:
+The discrete version of the exponential equation tells us the population per time-step:
 
 $$N_{t+1} = N_t + r_dN_t$$
 
@@ -379,7 +379,7 @@ ggplot(exp_pop_dat, aes(x = exp_pop, y = growth_rate))+
 
 - The doubling time depends on the growth rate $r$ and is _not_ every year
 
-- (ง'̀-'́)ง Surely no species can grow forever exponentially?!?!?!
+- (ง'̀-'́)ง  Surely no species can grow forever exponentially?!?!?!
  - _Correct!_ Welcome to part 2, __density dependence__
 
 ---
@@ -434,7 +434,7 @@ $$\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)$$
 However, as we learned from exponential growth, a population grows in proportion to its size.
 
   - A population of 1000 seabirds will produce more eggs than a population of 100.
-  - In the logistic growth equation the proportion added to the population decreases as the population grows reaching 0 when $N = K$
+  - In the logistic growth equation the proportion added to the population decreases as the population grows, reaching 0 when $N = K$
   
 
 
@@ -451,7 +451,7 @@ The point at which a population is the largest relative to the penalty for its s
 
 - What this means is the growth rate of a population is fastest at half its carrying capacity
   
-- As it grows bigger than $K/2$ the penalty becomes stronger but below $K/2$ the population is small and the proportion added to the population is small
+- As the population exceeds $K/2$ the penalty increases but below $K/2$ the population is small and the proportion added to the population is also small
 
 ---
 #Logistic growth
@@ -543,7 +543,7 @@ Remember how in the exponential model $N_{t+1} = 105$ ?
 ---
 #Logistic growth
 
-__Unlike__ the exponential model, the logistic model growth rate is dependent on population size and reaches its peak at half of the carrying capacity 
+__Unlike__ the exponential model, in te logistic model, growth rate is dependent on population size and reaches its peak at half of the carrying capacity 
 
 ```{r plot-chunk3, echo = FALSE, fig.width=5, fig.height=5,fig.show='hold'}
 r_logistic.fun <- function(r = 0.05, K = 1000, N_pop = 10, t = 250)
@@ -701,8 +701,8 @@ $$N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)$$
 
 .pull-left[
 Environmental stochasticity
-- Populations go through good and bad times and are not constant
-- We can represent this by adding variance to the growth rate $r_d$
+- Populations go through good and bad times and population growth rate is not constant
+- We can represent this by adding variability to the growth rate $r_d$
 ]
 
 .pull-right[
@@ -788,7 +788,7 @@ We have looked at:
 - __Exponentially__ growing populations grow proportional to their size indefinitely
 
 - __Logistically__ growing populations experience a penalty that increases with population size
-  - Growth rate is greatest at half the carrying capacity when the population size is at its largest relative to the density penalty
+  - Growth rate is greatest at half the carrying capacity, when the population size is at its largest relative to the density penalty
   
 - __Stochasticity__ can have a serious effect on populations and deterministic models do not account for stochasticity
 
@@ -805,7 +805,7 @@ We have looked at:
 - Many different population growth equations
   - We have not talked about the model $N_{t+1} = \lambda N_t\left(1- \frac{N_t}{K} \right)$.
   
-  - Concepts can be transferable but be aware while reading results may not be the same
+  - Concepts can be transferable but be aware results may not be the same
   
 - This is just the beginning
   - Population growth models get _much much_ more complicated to deal with more complicated species, for example, age structured population and competition
@@ -820,7 +820,7 @@ We have looked at:
 
 - Use the app to understand different parameters (but do not use screenshots from the app for your assignment)
 
-- Rubbish in rubbish out. If model outputs look crazy or the numbers don't make logical sense then double check your inputs and equations.
+- Rubbish in rubbish out. If model outputs look crazy or the numbers don't make logical sense then double check your inputs and equations
 
 ---
 
