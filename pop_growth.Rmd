@@ -3,7 +3,7 @@ title: "Welcome to Population Ecology!"
 subtitle: "⚔<br/>"
 author: ""
 institute: ""
-date: "14/08/2020"
+date: "04/08/2021"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -379,7 +379,7 @@ ggplot(exp_pop_dat, aes(x = exp_pop, y = growth_rate))+
 
 - The doubling time depends on the growth rate $r$ and is _not_ every year
 
-- ﴾͡๏̯͡๏﴿  Surely no species can grow forever exponentially?!?!?!
+- (ง'̀-'́)ง Surely no species can grow forever exponentially?!?!?!
  - _Correct!_ Welcome to part 2, __density dependence__
 
 ---
