@@ -1,56 +1,122 @@
 ---
-title: "Welcome to Population Ecology!"
-subtitle: "⚔"
+title: "Population Ecology"
+subtitle: "Exponential, logistic, and stochastic growth models"
+author: ""
+date: today
 format:
   revealjs:
-    theme: default
+    theme: moon
     highlight-style: github
+    slide-number: true
+    transition: slide
+    footer: "Population Ecology | Growth Models"
+    controls: true
+    chalkboard: true
+knitr:
+  opts_chunk:
+    dev.args:
+      bg: "transparent"
+execute:
+  echo: false
+  warning: false
 ---
 
 ```{r}
 #| label: setup
 #| include: false
-options(htmltools.dir.version = FALSE)
 library(tidyverse)
+
+# Discrete exponential growth
+exp_growth <- function(r = 0.05, N_pop = 10, t = 100) {
+  N <- vector("numeric", length = t)
+  N[1] <- N_pop
+  for (i in 2:t) {
+    N[i] <- N[i-1] + (N[i-1] * r)
+  }
+  return(N)
+}
+
+# Discrete logistic growth
+logistic_growth <- function(r = 0.05, K = 1000, N_pop = 10, t = 250) {
+  N <- vector("numeric", length = t)
+  N[1] <- N_pop
+  for (i in 2:t) {
+    N[i] <- N[i-1] + (r * N[i-1] * (1 - N[i-1] / K))
+  }
+  N <- ifelse(N <= 0, 0, N)
+  return(N)
+}
+
+# Stochastic logistic growth
+stochastic_growth <- function(r_mu = 0.05, r_sd = 0.15, K = 1000, N_pop = 10, t = 250) {
+  pop_df <- data.frame(
+    r_vec = rnorm(t, r_mu, r_sd),
+    N     = N_pop,
+    time  = 1:t
+  )
+  for (i in 2:nrow(pop_df)) {
+    pop_df$N[i] <- pop_df$N[i-1] + (pop_df$r_vec[i-1] * pop_df$N[i-1] * (1 - pop_df$N[i-1] / K))
+  }
+  pop_df$N <- ifelse(pop_df$N <= 0, 0, pop_df$N)
+  return(pop_df)
+}
+
+# Rate of change between consecutive time steps
+rate_of_change <- function(pop_vec) c(0, diff(pop_vec))
+
+# Custom ggplot theme for dark revealjs slides
+theme_lecture <- function(base_size = 13) {
+  theme_minimal(base_size = base_size) +
+    theme(
+      plot.background   = element_rect(fill = "transparent", colour = NA),
+      panel.background  = element_rect(fill = "transparent", colour = NA),
+      legend.background = element_rect(fill = "transparent", colour = NA),
+      panel.grid.major  = element_line(colour = "grey30"),
+      panel.grid.minor  = element_line(colour = "grey20"),
+      text              = element_text(colour = "grey90"),
+      axis.text         = element_text(colour = "grey65"),
+      axis.title        = element_text(colour = "grey90"),
+    )
+}
 ```
 
-## 3 part lecture (with breaks)
+## 3-part lecture (with breaks)
 
 ::: {.columns}
 :::: {.column width="50%"}
 - **Part 1** Exponential growth
 
-- **Part 2** Logistic growth - _Density dependent_
+- **Part 2** Logistic growth — _density dependent_
 
 - **Part 3** Logistic growth with stochasticity
 ::::
 
 :::: {.column width="50%"}
-![pop](pop_growth_files/lego_pop_img.png)
+![](pop_growth_files/lego_pop_img.png)
 ::::
 :::
 
-## Part 1: Why be interested in population growth?
+## Part 1: Why study population growth?
 
 . . .
 
 - Project future populations
 
-  - Human population expected to be 9.8 billion by 2050
+  - Global human population expected to reach 9.8 billion by 2050
 
 . . .
 
-- Conservation of species
+- Conservation of threatened species
 
 . . .
 
-- Sustainable use of resources
+- Sustainable use of natural resources
 
 . . .
 
-- Many more
+- Informing management of invasive species, fisheries, and epidemics
 
-## Part 1: Let's start with exponential population growth {background-color="#272822"}
+## Part 1: Exponential population growth {background-color="#1a1a2e"}
 
 ::: {style="text-align: center;"}
 Density independent growth
@@ -65,22 +131,16 @@ What is required for a population to grow?
 
 How many births and how many deaths?
 
-
 $$N_{t+1} = N_t + B - D + I - E$$
 
-
-- $B$ =  _Births_
-
-- $D$ =  _Deaths_
-
-- $I$ =  _Immigration_
-
-- $E$ =  _Emigration_
+- $B$ = _Births_
+- $D$ = _Deaths_
+- $I$ = _Immigration_
+- $E$ = _Emigration_
 
 . . .
 
-
-If we assume that immigration and emigration are equal, then the change in population size is:
+If we assume immigration and emigration are equal, the change in population size simplifies to:
 
 $$\Delta N = B - D$$
 
@@ -90,7 +150,7 @@ $$\Delta N = B - D$$
 
 ::: {.columns}
 :::: {.column width="50%"}
-- More births than deaths the population grows
+- More births than deaths: the population grows
 
 ::: {style="text-align: center;"}
 ![](pop_growth_files/happy_face.png){width="50%"}
@@ -98,7 +158,7 @@ $$\Delta N = B - D$$
 ::::
 
 :::: {.column width="50%"}
-- More deaths than births the population declines
+- More deaths than births: the population declines
 
 ::: {.fragment}
 ![](pop_growth_files/happy_face_blood.jpg)
@@ -108,20 +168,20 @@ $$\Delta N = B - D$$
 
 ## Exponential growth
 
-_Change in population_ ( $dN$ ) _over a very small interval of time_ ( $dt$ ) can be described as:
+_Change in population_ ($dN$) _over a very small interval of time_ ($dt$):
 
 $$\frac{dN}{dt}=B-D$$
 
 . . .
 
-- Births and deaths are also described in rates:
+Births and deaths are expressed as per-capita rates:
 
 ::: {.columns}
 :::: {.column width="50%"}
 $$B = bN$$
 $b$ = instantaneous birth rate
 
-[births / (individual * time)]
+[births / (individual · time)]
 ::::
 
 :::: {.column width="50%"}
@@ -129,13 +189,13 @@ $$D = dN$$
 
 $d$ = instantaneous death rate
 
-[deaths / (individual * time)]
+[deaths / (individual · time)]
 ::::
 :::
 
 ## Exponential growth
 
-_SO_ change in population over time can be described as
+Substituting gives change in population over time:
 
 $$\frac{dN}{dt}=(b-d)N$$
 
@@ -145,11 +205,11 @@ $$\frac{dN}{dt}=(0.55-0.50)N$$
 
 . . .
 
-$$\frac{dN}{dt}=(0.55-0.50)*100$$
+$$\frac{dN}{dt}=(0.55-0.50)\times100$$
 
 . . .
 
-$$\frac{dN}{dt}=0.05*100$$
+$$\frac{dN}{dt}=0.05\times100$$
 
 . . .
 
@@ -157,7 +217,7 @@ $$\frac{dN}{dt}=5$$
 
 ## Exponential growth
 
-If we let $b-d$ become the constant $r$, the __intrinsic rate of increase__, we have the continuous exponential growth equation:
+Letting $r = b - d$, the __intrinsic rate of increase__, gives the continuous exponential growth equation:
 
 $$\frac{dN}{dt}=rN$$
 
@@ -168,8 +228,6 @@ $$\frac{dN}{dt}=rN$$
 :::
 
 ## Exponential growth
-
-Change in population is equal to the intrinsic rate of increase ( $r$ ) multiplied by the population size ( $N$ )
 
 ::: {.columns}
 :::: {.column width="50%"}
@@ -183,86 +241,67 @@ $r$ = _intrinsic rate of increase_
 ::::
 :::
 
+$r$ determines whether a population grows or declines:
 
-$r$ defines how fast a population is growing or declining
+- $r = 0$ &nbsp; no change
+- $r > 0$ &nbsp; population grows
+- $r < 0$ &nbsp; population declines
 
-- $r=0$ no growth
-- $r>0$ positive growth
-- $r<0$ negative growth
-
-The differential equation tells us growth __rate__ not population size
+The differential equation describes the growth **rate**, not the population size.
 
 ## Exponential growth
 
-The abundance of an exponentially growing population at a given time $t$ can be worked out by:
+The size of an exponentially growing population at time $t$:
 
 $$N_t = N_0e^{rt}$$
-Look familiar from assignment 1?
 
 . . .
 
-The discrete version of the exponential equation tells us the population per time-step:
+The **discrete** version gives population size per time-step:
 
 $$N_{t+1} = N_t + r_dN_t$$
 
-$$N_{t+1} = 100 + 0.05 * 100$$
-$$N_{t+1} = 105$$
-$N_t$ = Population size at time t
+$$N_{t+1} = 100 + 0.05 \times 100 = 105$$
 
-$r_d$ = discrete growth factor
+$N_t$ = population size at time $t$
+
+$r_d$ = discrete growth rate
 
 ## Exponential growth
 
 ::: {.columns}
 :::: {.column width="50%"}
 
-Theoretical populations growing and declining as a result of different values of $r$
+Theoretical populations with different values of $r$
 
-- $r=0$ no growth
-- $r>0$ positive growth
-- $r<0$ negative growth
+- $r = 0$ &nbsp; no change
+- $r > 0$ &nbsp; growth
+- $r < 0$ &nbsp; decline
 
-Because growth rate is exponential, by taking the natural logarithm of the population size the graphed lines become straight
+Taking the natural log of population size linearises exponential growth.
 
 ::::
-
 
 :::: {.column width="50%"}
 ```{r}
 #| label: plot-exp
-#| echo: false
 #| fig-width: 5
 #| fig-height: 5
-r_exp.fun <- function(r = 0.05, N_pop = 10, t = 100)
-{
-  N <- vector("numeric", length = t)
-  N[1] <- N_pop
-  for (i in 2:t)
-  {
-    N[i] <- N[i-1] + (N[i-1] * r)
-  }
-  return(N)
-}
-
 args_list <- list(0.02, 0.01, 0.00, -0.02)
 
-pop_dat <- data.frame(spp =
-  mapply(
-  r_exp.fun,
-  r = args_list
-))
-
-pop_dat <- pop_dat %>%
-  mutate(time = 1:n()) %>%
+pop_dat <- data.frame(spp = mapply(exp_growth, r = args_list)) |>
+  mutate(time = 1:n()) |>
   pivot_longer(cols = -time, names_to = "key", values_to = "value")
 
-ggplot(pop_dat, aes(x = time, y = value, colour = key))+
-  geom_line(show.legend = FALSE)+
-  annotate("text", x = 60, y = c(40, 22, 12, 0.9), label = c("r = 0.02","r = 0.01","r = 0", "r = -0.02"))+
-  ylab("population size (N)")+
-  theme_minimal()
+ggplot(pop_dat, aes(x = time, y = value, colour = key)) +
+  geom_line(linewidth = 0.8, show.legend = FALSE) +
+  annotate("text", x = 60, y = c(40, 22, 12, 0.9),
+           label = c("r = 0.02", "r = 0.01", "r = 0", "r = -0.02"),
+           colour = "grey85") +
+  scale_colour_viridis_d(option = "plasma", end = 0.85) +
+  labs(y = "Population size (N)") +
+  theme_lecture()
 ```
-
 ::::
 :::
 
@@ -273,140 +312,93 @@ ggplot(pop_dat, aes(x = time, y = value, colour = key))+
 Exponential growth
 ::::
 :::: {.column width="50%"}
-Logarithm of exponential growth
+Log of exponential growth
 ::::
 :::
 
-
 ```{r}
-#| label: plot-chunk
-#| echo: false
+#| label: plot-exp-log
 #| fig-width: 5
 #| fig-height: 5
 #| layout-ncol: 2
-r_exp.fun <- function(r = 0.05, N_pop = 10, t = 100)
-{
-  N <- vector("numeric", length = t)
-  N[1] <- N_pop
-  for (i in 2:t)
-  {
-    N[i] <- N[i-1] + (N[i-1] * r)
-  }
-  return(N)
-}
+ggplot(pop_dat, aes(x = time, y = value, colour = key)) +
+  geom_line(linewidth = 0.8, show.legend = FALSE) +
+  annotate("text", x = 60, y = c(40, 22, 12, 0.9),
+           label = c("r = 0.02", "r = 0.01", "r = 0", "r = -0.02"),
+           colour = "grey85") +
+  scale_colour_viridis_d(option = "plasma", end = 0.85) +
+  labs(y = "Population size (N)") +
+  theme_lecture()
 
-args_list <- list(0.02, 0.01, 0.00, -0.02)
-
-pop_dat <- data.frame(spp =
-  mapply(
-  r_exp.fun,
-  r = args_list
-))
-
-pop_dat_gathered <- pop_dat %>%
-  mutate(time = 1:n()) %>%
-  pivot_longer(cols = -time, names_to = "key", values_to = "value")
-
-
-ggplot(pop_dat_gathered, aes(x = time, y = value, colour = key))+
-  geom_line(show.legend = FALSE)+
-  annotate("text", x = 60, y = c(40, 22, 12, 0.9), label = c("r = 0.02","r = 0.01","r = 0", "r = -0.02"))+
-  ylab("population size (N)")+
-  theme_minimal()
-
-ggplot(pop_dat_gathered, aes(x = time, y = log(value), colour = key))+
-  geom_line(show.legend = FALSE)+
-  annotate("text", x = 60, y = c(3.7, 3.2, 2.4, 0.9), label = c("r = 0.02","r = 0.01","r = 0", "r = -0.02"))+
-  ylab("Logarithm of population size [ln (N)]")+
-  theme_minimal()
+ggplot(pop_dat, aes(x = time, y = log(value), colour = key)) +
+  geom_line(linewidth = 0.8, show.legend = FALSE) +
+  annotate("text", x = 60, y = c(3.7, 3.2, 2.4, 0.9),
+           label = c("r = 0.02", "r = 0.01", "r = 0", "r = -0.02"),
+           colour = "grey85") +
+  scale_colour_viridis_d(option = "plasma", end = 0.85) +
+  labs(y = "ln(N)") +
+  theme_lecture()
 ```
 
-## Growth rates
+## Growth rates across species
 
-Common name | $r$ [individuals/(individual*day)]  | Doubling time
-------------|-------------------------------------|---------
-Virus       | 300.0                               | 3.3 minutes
-Bacterium   | 58.7                                | 17 minutes
-Protozoan   | 1.59                                | 10.5 hours
-Hydra       | 0.34                                | 2 days
-Flour beetle| 0.101                               | 6.9 days
-Brown rat   | 0.0148                              | 46.8 days
-Domestic cow| 0.001                               | 1.9 years
-Mangrove    | 0.00055                             | 3.5 years
-Southern beech | 0.000075                         | 25.3 years
+| Common name    | $r$ [ind/(ind·day)] | Doubling time |
+|----------------|---------------------|---------------|
+| Virus          | 300.0               | 3.3 minutes   |
+| Bacterium      | 58.7                | 17 minutes    |
+| Protozoan      | 1.59                | 10.5 hours    |
+| Hydra          | 0.34                | 2 days        |
+| Flour beetle   | 0.101               | 6.9 days      |
+| Brown rat      | 0.0148              | 46.8 days     |
+| Domestic cow   | 0.001               | 1.9 years     |
+| Mangrove       | 0.00055             | 3.5 years     |
+| Southern beech | 0.000075            | 25.3 years    |
 
-## Growth rates
+## Growth rate vs population size
 
-Population increases exponentially but __Growth rate__ over __population size__ increases proportionally with the population
+Growth **rate** over population **size** increases proportionally — not absolutely.
 
 ```{r}
-#| label: plot-chunk1
-#| echo: false
+#| label: plot-exp-roc
 #| fig-width: 5
 #| fig-height: 5
 #| layout-ncol: 2
-r_exp.fun <- function(r = 0.05, N_pop = 10, t = 100)
-{
-  N <- vector("numeric", length = t)
-  N[1] <- N_pop
-  for (i in 2:t)
-  {
-    N[i] <- N[i-1] + (N[i-1] * r)
-  }
-  return(N)
-}
+exp_pop <- data.frame(N = exp_growth()) |>
+  mutate(time = 1:n(),
+         dNdt = rate_of_change(N))
 
+ggplot(exp_pop, aes(x = time, y = N)) +
+  geom_line(colour = "#ff6b6b", linewidth = 0.9) +
+  annotate("text", x = 60, y = 400, label = "r = 0.05", colour = "grey85") +
+  labs(y = "Population size (N)") +
+  theme_lecture()
 
-pop_dat1 <- data.frame(spp =
-  r_exp.fun())
-
-pop_dat1 <- pop_dat1 %>%
-  mutate(time = 1:n())
-
-
-pop_roc_fun <- function(pop_vec){
-  for (i in length(pop_vec):2)
-  {
-    pop_vec[i] <- pop_vec[i] - pop_vec[i-1]
-  }
-  pop_vec[1] <- 0
-  return(pop_vec)
-}
-
-exp_pop_dat <- data.frame(exp_pop = r_exp.fun())
-exp_pop_dat <- exp_pop_dat %>%
-  mutate(growth_rate = pop_roc_fun(exp_pop))
-
-ggplot(pop_dat1, aes(x = time, y = spp))+
-  geom_line(show.legend = FALSE, colour = "red")+
-  annotate("text", x = 60, y = c(400), label = c("r = 0.05"))+
-  ylab("population size (N)")+
-  theme_minimal()
-
-ggplot(exp_pop_dat, aes(x = exp_pop, y = growth_rate))+
-  geom_line(show.legend = FALSE, colour = "red")+
-  annotate("text", x = 500, y = c(40), label = c("r = 0.05"))+
-  xlab("Population size (N)")+
-  ylab("rate of change (dN/dt)")+
-  theme_minimal()
+ggplot(exp_pop, aes(x = N, y = dNdt)) +
+  geom_line(colour = "#ff6b6b", linewidth = 0.9) +
+  annotate("text", x = 500, y = 40, label = "r = 0.05", colour = "grey85") +
+  labs(x = "Population size (N)", y = "Rate of change (dN/dt)") +
+  theme_lecture()
 ```
 
-## Exponential growth
+## Exponential growth — summary
 
-- Populations growing exponentially have a doubling time
+- Exponentially growing populations have a **doubling time** determined by $r$ — not fixed at one year
 
-- The doubling time depends on the growth rate $r$ and is _not_ every year
+- $r$ is constant, so growth is unbounded
 
-- (ง'̀-'́)ง  Surely no species can grow forever exponentially?!?!?!
- - _Correct!_ Welcome to part 2, __density dependence__
+- Surely no species can grow exponentially forever?
 
-## Take 5 minutes to discuss the assumptions of the exponential growth model {background-color="#272822"}
+  - _Correct!_ Enter **density dependence** — Part 2.
+
+## Assumptions of the exponential model {background-color="#1a1a2e"}
 
 ::: {style="text-align: center;"}
+Take 5 minutes to discuss the assumptions of the exponential growth model
+
 ( ͡° ͜ʖ ͡°)
 :::
 
-## Part 2: Logistic population growth {background-color="#272822"}
+## Part 2: Logistic population growth {background-color="#1a1a2e"}
 
 ::: {style="text-align: center;"}
 Density dependent growth
@@ -415,64 +407,44 @@ $$\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)$$
 
 ## Logistic growth
 
-Now we will look at populations which do not grow forever but reach a __carrying capacity__ ( $K$ )
+Populations do not grow forever — they reach a **carrying capacity** ($K$).
 
-$K$ represents the maximum population size that can be supported considering limiting factors such as food, shelter and space
-
-$$\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)$$
-$N$ = Population size
-
-$r$ = Intrinsic rate of increase
-
-$K$ = Carrying capacity
-
-## Logistic growth
-
-Consider the term $\left(1- \frac{N}{K} \right)$ as a penalty on the growth of the population depending on the number of individuals in the community
-
-- Very crowded communities have a high penalty compared to ones with plenty of space and resources
+$K$ = the maximum population size supported by available resources (food, shelter, space).
 
 $$\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)$$
 
-
-. . .
-
-- At the point the population reaches the carrying capacity: $N$ will = $K$, and the fraction $\frac{N}{K}$ will = 1
-
-- The term $\left(1- \frac{N}{K} \right)$ will collapse to 0 and the change in population will = 0. The equation will be multiplied by 0 and equal 0
-
-- So the population will remain at size $K$
+$N$ = population size &nbsp;&nbsp;&nbsp; $r$ = intrinsic rate of increase &nbsp;&nbsp;&nbsp; $K$ = carrying capacity
 
 ## Logistic growth
 
-If the population is very small, $N$ is small relative to $K$, then the penalty is small
+The term $\left(1 - \frac{N}{K}\right)$ acts as a **density penalty**:
+
+- Crowded populations incur a large penalty; sparse populations incur a small one.
 
 $$\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)$$
 
 . . .
 
-However, as we learned from exponential growth, a population grows in proportion to its size.
+- When $N = K$: $\quad\frac{N}{K} = 1$, so $\left(1 - \frac{N}{K}\right) = 0$, and $\frac{dN}{dt} = 0$
 
-  - A population of 1000 seabirds will produce more eggs than a population of 100.
-  - In the logistic growth equation the proportion added to the population decreases as the population grows, reaching 0 when $N = K$
-
-
+- The population stabilises at $K$
 
 ## Logistic growth
 
+When $N$ is small relative to $K$, the penalty is small and growth is nearly exponential.
+
 $$\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)$$
-
-- If $K = 100$ and $N = 7$ then the unused space is $1-(7/100) = 0.93$ and the population is growing at 93% of the growth rate of an exponentially growing population
-
-- If $K = 100$ and $N = 98$ then the unused proportion of capacity is $1-(98/100) = 0.02$ and growth is at 2% of the growth rate of an exponentially growing population
 
 . . .
 
-The point at which a population is the largest relative to the penalty for its size is at $K/2$
+As $N$ grows, a larger fraction of capacity is used and the penalty increases:
 
-- What this means is the growth rate of a population is fastest at half its carrying capacity
+- $K = 100$, $N = 7$: &nbsp; unused capacity $= 1 - (7/100) = 0.93$ &nbsp; → growing at 93% of exponential rate
+- $K = 100$, $N = 98$: unused capacity $= 1 - (98/100) = 0.02$ → growing at 2% of exponential rate
 
-- As the population exceeds $K/2$ the penalty increases but below $K/2$ the population is small and the proportion added to the population is also small
+. . .
+
+The **maximum growth rate** occurs at $N = K/2$
 
 ## Logistic growth
 
@@ -481,9 +453,9 @@ _Thanos should have studied population ecology_
 ::: {.columns}
 :::: {.column width="50%"}
 
-- If a species is at capacity, its growth rate will increase to maximum if you cut it in half.
+- If a species is at carrying capacity, halving the population maximises its growth rate.
 
-- Not all species are equal so cutting all in half will not have an equal effect...
+- But species differ in their $r$ and $K$ — the effect of halving is not equal across all species.
 ::::
 
 :::: {.column width="50%"}
@@ -502,32 +474,17 @@ _Paramecium_ growing to capacity.
 
 :::: {.column width="50%"}
 ```{r}
-#| label: plot-chunk2
-#| echo: false
+#| label: plot-logistic
 #| fig-width: 5
 #| fig-height: 5
-r_logistic.fun <- function(r = 0.05, K = 1000, N_pop = 10, t = 250)
-{
-  N <- vector("numeric", length = t)
-  N[1] <- N_pop
-  for (i in 2:t)
-  {
-    N[i] <- N[i-1] + (r * N[i-1] * (1 - N[i-1] / K))   # version 2 with R
-  }
-  N <- ifelse(N <= 0, 0, N)
-  return(N)
-}
-
-logistic_pop <- data.frame(pop = r_logistic.fun())
-logistic_pop <- logistic_pop %>%
+logistic_pop <- data.frame(N = logistic_growth()) |>
   mutate(time = 1:n())
 
-ggplot(logistic_pop, aes(x = time, y = pop))+
-  geom_line(show.legend = FALSE, colour = "black")+
-  ylab("Population size (N)")+
-  theme_minimal()
+ggplot(logistic_pop, aes(x = time, y = N)) +
+  geom_line(colour = "#74b9ff", linewidth = 0.9) +
+  labs(y = "Population size (N)") +
+  theme_lecture()
 ```
-
 ::::
 :::
 
@@ -537,32 +494,25 @@ ggplot(logistic_pop, aes(x = time, y = pop))+
 ![](pop_growth_files/yeast_seal.png){width="60%"}
 :::
 
-## Logistic growth
+## Logistic growth — discrete form
 
-Now we will look at the discrete form of the equation:
+The **discrete** logistic equation gives population size at the next time-step:
 
 $$N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)$$
-$N_t$ = Population size at time t
 
-$r_d$ = discrete growth factor
-
-$K$ = Carrying capacity
+$N_t$ = population size at time $t$ &nbsp;&nbsp;&nbsp; $r_d$ = discrete growth rate &nbsp;&nbsp;&nbsp; $K$ = carrying capacity
 
 . . .
 
-- Instead of telling us the change in a population at an infinitely small point in time, the discrete equation tells us the size of the population at a given time.
+Unlike the continuous form (which gives rate of change), the discrete form gives an **absolute population size**.
 
-## Logistic growth
-
-The size of the population at the next time-step is equal to:
-
-- The size of the current population plus the current population multiplied by the discrete growth rate and the density penalty.
+## Logistic growth — worked example
 
 $$N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)$$
 
 . . .
 
-$$N_{t+1} = 100 + 0.05 * 100 \left(1- \frac{100}{200} \right)$$
+$$N_{t+1} = 100 + 0.05 \times 100 \left(1- \frac{100}{200} \right)$$
 
 . . .
 
@@ -570,163 +520,81 @@ $$N_{t+1} = 102.5$$
 
 . . .
 
-Remember how in the exponential model $N_{t+1} = 105$ ?
+Compare with the exponential model: $N_{t+1} = 105$
 
-## Logistic growth
+The density penalty has already reduced growth by 2.5 individuals.
 
-__Unlike__ the exponential model, in the logistic model, growth rate is dependent on population size and reaches its peak at half of the carrying capacity
+## Logistic growth — rate vs size
+
+Unlike exponential growth, the logistic growth rate peaks at $K/2$ and returns to zero at $K$.
 
 ```{r}
-#| label: plot-chunk3
-#| echo: false
+#| label: plot-logistic-roc
 #| fig-width: 5
 #| fig-height: 5
 #| layout-ncol: 2
-r_logistic.fun <- function(r = 0.05, K = 1000, N_pop = 10, t = 250)
-{
-  N <- vector("numeric", length = t)
-  N[1] <- N_pop
-  for (i in 2:t)
-  {
-    N[i] <- N[i-1] + (r * N[i-1] * (1 - N[i-1] / K))   # version 2 with R
-  }
-  N <- ifelse(N <= 0, 0, N)
-  return(N)
-}
+logistic_pop2 <- data.frame(N = logistic_growth()) |>
+  mutate(time = 1:n(),
+         dNdt = rate_of_change(N))
 
-pop_roc_fun <- function(pop_vec){
-  for (i in length(pop_vec):2)
-  {
-    pop_vec[i] <- pop_vec[i] - pop_vec[i-1]
-  }
-  pop_vec[1] <- 0
-  return(pop_vec)
-}
+ggplot(logistic_pop2, aes(x = time, y = N)) +
+  geom_line(colour = "#74b9ff", linewidth = 0.9) +
+  annotate("text", x = 50, y = 500, label = "r = 0.05", colour = "grey85") +
+  labs(y = "Population size (N)") +
+  theme_lecture()
 
-logistic_pop <- data.frame(pop = r_logistic.fun())
-logistic_pop <- logistic_pop %>%
-  mutate(time = 1:n())
-
-
-logistic_pop_dat <- data.frame(logistic_pop_dat = r_logistic.fun())
-logistic_pop_dat <- logistic_pop_dat %>%
-  mutate(growth_rate = pop_roc_fun(logistic_pop_dat))
-
-
-ggplot(logistic_pop, aes(x = time, y = pop))+
-  geom_line(show.legend = FALSE, colour = "black")+
-  annotate("text", x = 50, y = c(500), label = c("r = 0.05"))+
-  ylab("Population size (N)")+
-  theme_minimal()
-
-
-ggplot(logistic_pop_dat, aes(x = logistic_pop_dat, y = growth_rate))+
-  geom_line(show.legend = FALSE, colour = "black")+
-  annotate("text", x = 500, y = c(15), label = c("r = 0.05"))+
-  xlab("Population size (N)")+
-  ylab("rate of change (dN/dt)")+
-  theme_minimal()
+ggplot(logistic_pop2, aes(x = N, y = dNdt)) +
+  geom_line(colour = "#74b9ff", linewidth = 0.9) +
+  annotate("text", x = 500, y = 15, label = "r = 0.05", colour = "grey85") +
+  labs(x = "Population size (N)", y = "Rate of change (dN/dt)") +
+  theme_lecture()
 ```
 
-## Logistic growth
+## Logistic vs exponential growth rates
 
 ::: {.columns}
 :::: {.column width="50%"}
-**Logistic** growth rate vs population size
+**Logistic** — rate vs population size
 ::::
 
 :::: {.column width="50%"}
-**Exponential** growth rate vs population size
+**Exponential** — rate vs population size
 ::::
 :::
 
-
 ```{r}
-#| label: plot-chunk4
-#| echo: false
+#| label: plot-log-vs-exp
 #| fig-width: 5
 #| fig-height: 5
 #| layout-ncol: 2
-r_logistic.fun <- function(r = 0.05, K = 1000, N_pop = 10, t = 250)
-{
-  N <- vector("numeric", length = t)
-  N[1] <- N_pop
-  for (i in 2:t)
-  {
-    N[i] <- N[i-1] + (r * N[i-1] * (1 - N[i-1] / K))   # version 2 with R
-  }
-  N <- ifelse(N <= 0, 0, N)
-  return(N)
-}
+logistic_roc <- data.frame(N = logistic_growth()) |>
+  mutate(dNdt = rate_of_change(N))
 
-pop_roc_fun <- function(pop_vec){
-  for (i in length(pop_vec):2)
-  {
-    pop_vec[i] <- pop_vec[i] - pop_vec[i-1]
-  }
-  pop_vec[1] <- 0
-  return(pop_vec)
-}
+exp_roc <- data.frame(N = exp_growth()) |>
+  mutate(dNdt = rate_of_change(N))
 
-r_exp.fun <- function(r = 0.05, N_pop = 10, t = 100)
-{
-  N <- vector("numeric", length = t)
-  N[1] <- N_pop
-  for (i in 2:t)
-  {
-    N[i] <- N[i-1] + (N[i-1] * r)
-  }
-  return(N)
-}
+ggplot(logistic_roc, aes(x = N, y = dNdt)) +
+  geom_line(colour = "#74b9ff", linewidth = 0.9) +
+  annotate("text", x = 500, y = 15, label = "r = 0.05", colour = "grey85") +
+  labs(x = "Population size (N)", y = "Rate of change (dN/dt)") +
+  theme_lecture()
 
-
-pop_dat1 <- data.frame(spp =
-  r_exp.fun())
-
-pop_dat1 <- pop_dat1 %>%
-  mutate(time = 1:n())
-
-
-pop_roc_fun <- function(pop_vec){
-  for (i in length(pop_vec):2)
-  {
-    pop_vec[i] <- pop_vec[i] - pop_vec[i-1]
-  }
-  pop_vec[1] <- 0
-  return(pop_vec)
-}
-
-logistic_pop_dat <- data.frame(logistic_pop_dat = r_logistic.fun())
-logistic_pop_dat <- logistic_pop_dat %>%
-  mutate(growth_rate = pop_roc_fun(logistic_pop_dat))
-
-
-ggplot(logistic_pop_dat, aes(x = logistic_pop_dat, y = growth_rate))+
-  geom_line(show.legend = FALSE, colour = "black")+
-  annotate("text", x = 500, y = c(15), label = c("r = 0.05"))+
-  xlab("Population size (N)")+
-  ylab("rate of change (dN/dt)")+
-  theme_minimal()
-
-exp_pop_dat <- data.frame(exp_pop = r_exp.fun())
-exp_pop_dat <- exp_pop_dat %>%
-  mutate(growth_rate = pop_roc_fun(exp_pop))
-
-ggplot(exp_pop_dat, aes(x = exp_pop, y = growth_rate))+
-  geom_line(show.legend = FALSE, colour = "red")+
-  annotate("text", x = 500, y = c(40), label = c("r = 0.05"))+
-  xlab("Population size (N)")+
-  ylab("rate of change (dN/dt)")+
-  theme_minimal()
+ggplot(exp_roc, aes(x = N, y = dNdt)) +
+  geom_line(colour = "#ff6b6b", linewidth = 0.9) +
+  annotate("text", x = 500, y = 40, label = "r = 0.05", colour = "grey85") +
+  labs(x = "Population size (N)", y = "Rate of change (dN/dt)") +
+  theme_lecture()
 ```
 
-## Take 5 minutes to discuss the assumptions of the logistic growth model {background-color="#272822"}
+## Assumptions of the logistic model {background-color="#1a1a2e"}
 
 ::: {style="text-align: center;"}
+Take 5 minutes to discuss the assumptions of the logistic growth model
+
 (ᵔᴥᵔ)
 :::
 
-## Part 3: Introducing stochasticity {background-color="#272822"}
+## Part 3: Introducing stochasticity {background-color="#1a1a2e"}
 
 ::: {style="text-align: center;"}
 Non-deterministic growth
@@ -734,138 +602,119 @@ Non-deterministic growth
 
 ## Stochasticity
 
-Until now, everything we have looked at has been _entirely_ deterministic but is this true of the real world?
+Everything so far has been _entirely_ deterministic — but the real world is not.
 
 $$N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)$$
 
 ::: {.columns}
 :::: {.column width="50%"}
-Environmental stochasticity
+**Environmental stochasticity**
 
-- Populations go through good and bad times and population growth rate is not constant
-- We can represent this by adding variability to the growth rate $r_d$
+- Populations go through good and bad years
+- Represented by adding variability to $r_d$
 ::::
 
 :::: {.column width="50%"}
-Demographic stochasticity
+**Demographic stochasticity**
 
-- By chance a population might have a run of births or a run of deaths
-- Demographic stochasticity includes the probability of births and deaths in the parameter $r$
+- By chance, births or deaths may cluster in time
+- Represented by making birth and death probabilities explicit in $r$
 ::::
 :::
 
 . . .
 
-- Variability can also be included in $K$, the carrying capacity!
+Variability can also be incorporated into $K$.
 
-
-We will focus on _environmental stochasticity_
+We will focus on _environmental stochasticity_.
 
 ## Stochasticity
 
-Even if __average__ growth rate is positive some stochasticity can drive extinction
+Even with a **positive average growth rate**, stochasticity can drive extinction.
 
 ```{r}
-#| label: plot-chunk5
-#| echo: false
+#| label: plot-stochastic
 #| fig-width: 5
 #| fig-height: 5
 #| layout-ncol: 2
-r_stochastic.fun <- function(r_mu = 0.05, r_sd = 0.15, K = 1000, N_pop = 10, t = 250)
-{
-  pop_df <- data.frame(r_vec = rnorm(t, r_mu, r_sd),
-                       N = N_pop,
-                       time = 1:t)
+set.seed(42)
 
-  for (i in 2:length(pop_df$N))
-  {
-    pop_df$N[i] <- pop_df$N[i-1] + (pop_df$r_vec[i-1] * pop_df$N[i-1] * (1 - pop_df$N[i-1] / K))   # version 2 with R
-  }
-  pop_df$N <- ifelse(pop_df$N <= 0, 0, pop_df$N)
+stoch_low <- replicate(10,
+  stochastic_growth(r_mu = 0.05, r_sd = 0.15, K = 1000, N_pop = 10, t = 250),
+  simplify = FALSE) |>
+  bind_rows(.id = "run_id")
 
-  return(pop_df)
-}
+stoch_high <- replicate(10,
+  stochastic_growth(r_mu = 0.02, r_sd = 0.30, K = 1000, N_pop = 300, t = 250),
+  simplify = FALSE) |>
+  bind_rows(.id = "run_id")
 
-stochastic_pop <- replicate(10, r_stochastic.fun(r_mu = 0.05, r_sd = 0.15, K = 1000, N_pop = 10, t = 250), simplify = FALSE)
-stochastic_pop <- bind_rows(stochastic_pop, .id = "run_id")
+ggplot(stoch_low, aes(x = time, y = N, group = run_id, colour = run_id)) +
+  geom_line(linewidth = 0.7, show.legend = FALSE, alpha = 0.85) +
+  annotate("text", x = 25, y = 750, label = "r = 0.05, sd = 0.15", colour = "grey85") +
+  scale_colour_viridis_d(option = "plasma") +
+  labs(y = "Population size (N)", x = "Time") +
+  theme_lecture()
 
-
-stochastic_pop_high <- replicate(10, r_stochastic.fun(r_mu = 0.02, r_sd = 0.3, K = 1000, N_pop = 300, t = 250), simplify = FALSE)
-stochastic_pop_high <- bind_rows(stochastic_pop_high, .id = "run_id")
-
-
-ggplot(stochastic_pop, aes(x = time, y = N, group = run_id, colour = run_id))+
-  geom_line(show.legend = FALSE)+
-  annotate("text", x = 25, y = c(750), label = c("r = 0.05"))+
-  ylab("Population size(N)")+
-  xlab("time")+
-  theme_minimal()
-
-
-ggplot(stochastic_pop_high, aes(x = time, y = N, group = run_id, colour = run_id))+
-  geom_line(show.legend = FALSE)+
-  annotate("text", x = 150, y = c(750), label = c("r = 0.02"))+
-  ylab("Population size(N)")+
-  xlab("time")+
-  theme_minimal()
+ggplot(stoch_high, aes(x = time, y = N, group = run_id, colour = run_id)) +
+  geom_line(linewidth = 0.7, show.legend = FALSE, alpha = 0.85) +
+  annotate("text", x = 150, y = 750, label = "r = 0.02, sd = 0.30", colour = "grey85") +
+  scale_colour_viridis_d(option = "plasma") +
+  labs(y = "Population size (N)", x = "Time") +
+  theme_lecture()
 ```
 
 ## Recap
 
-We have looked at:
+We have covered:
 
-- discrete and continuous equations for __exponential growth__
-  - also known as __density independent__ growth
+- Discrete and continuous forms of **exponential growth**
+  - also known as **density independent** growth
 
-- discrete and continuous equations for __logistic growth__
-  - also known as __density dependent__ growth
+- Discrete and continuous forms of **logistic growth**
+  - also known as **density dependent** growth
 
-- __Stochastic__ logistic growth
+- **Stochastic** logistic growth
 
-- We have discussed model __assumptions__
+- Model **assumptions**
 
 ## Key points
 
-- __Exponentially__ growing populations grow proportional to their size indefinitely
+- **Exponential growth**: population grows in proportion to its size, indefinitely
 
-- __Logistically__ growing populations experience a penalty that increases with population size
-  - Growth rate is greatest at half the carrying capacity, when the population size is at its largest relative to the density penalty
+- **Logistic growth**: a density penalty slows growth as $N$ approaches $K$
+  - Growth rate is greatest at $N = K/2$
 
-- __Stochasticity__ can have a serious effect on populations and deterministic models do not account for stochasticity
+- **Stochasticity**: can drive extinction even when average growth is positive; deterministic models cannot capture this
 
-- __Assumptions are key__, _think about these for the assignment_
+- **Assumptions matter** — think critically about these for your assignment
 
 ## Things to be aware of
 
-- Differences in continuous and discrete equation
-  - Different notation and descriptions of $r$
-  - Mathematical differences
+- Continuous vs discrete equations use different notation and can give different results for large $r$
 
-- Many different population growth equations
-  - We have not talked about the model $N_{t+1} = \lambda N_t\left(1- \frac{N_t}{K} \right)$.
+- Many variants of population growth models exist, e.g.:
+  $$N_{t+1} = \lambda N_t\left(1- \frac{N_t}{K} \right)$$
+  Concepts transfer, but parameter meanings and outputs may differ.
 
-  - Concepts can be transferable but be aware results may not be the same
+- This is just the beginning — models extend to age-structured populations, competition, predation, and more.
 
-- This is just the beginning
-  - Population growth models get _much much_ more complicated to deal with more complicated species, for example, age structured population and competition
-
-## Top tips for the assignment
+## Tips for the assignment
 
 - Attend labs and office hours
 
-- Understand the two key graphs: population vs time and growth-rate vs population
+- Focus on the two key graphs: population size vs time, and growth rate vs population size
 
-- Use the app to understand different parameters (but do not use screenshots from the app for your assignment)
+- Use the Shiny app to explore parameter effects — but do not submit screenshots as figures
 
-- Rubbish in rubbish out. If model outputs look crazy or the numbers don't make logical sense then double check your inputs and equations
+- Check your outputs for logical sense: if numbers look extreme, trace back your inputs and equations
 
-## Go forth and model!!! {background-color="#272822"}
+## Go forth and model! {background-color="#1a1a2e"}
 
 ::: {style="text-align: center;"}
+
 \ (•◡•) /
+
 :::
-
-
-<!-- <iframe src="https://quinnasena.shinyapps.io/r_logistic/" width="100%" height="1024px"></frame> -->
 
 <!-- pagedown::chrome_print("pop_growth.qmd", "growth_app/www/pop_growth.pdf") -->
