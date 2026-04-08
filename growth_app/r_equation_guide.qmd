@@ -1,0 +1,20 @@
+---
+title: "Logistic Equation Guide"
+format: html
+---
+
+##### **Equation Guide**
+
+- $N$ is the population size at a given time-step ($t$)
+- $r_d$ is the discrete growth rate
+    - $r = 0$: no change
+    - $r > 0$: positive growth
+    - $r < 0$: population decline
+- $K$ is the carrying capacity
+
+##### **Limit Cycles and Chaos**
+
+- $r_d < 2.000$: population reaches $K$ with dampening oscillations
+- $2.000 < r_d < 2.449$: two-point stable limit cycle
+- $2.449 < r_d < 2.570$: limit cycles increase geometrically in period (2, 4, 8, 16…)
+- $r_d > 2.570$: aperiodic (irregular) patterns known as chaos

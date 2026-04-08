@@ -1,0 +1,12 @@
+---
+title: "Exponential Equation Guide"
+format: html
+---
+
+##### **Equation Guide**
+
+- $N$ is the population size at a given time-step ($t$)
+- $r_d$ is the discrete growth rate
+    - $r > 0$: positive growth
+    - $r = 0$: no change
+    - $r < 0$: population decline
