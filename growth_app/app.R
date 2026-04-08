@@ -2,6 +2,10 @@
 library(shiny)
 library(ggplot2)
 
+if (!file.exists("exp_model_title_text.html")) {
+  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+}
+
 # --- Growth model functions ---------------------------------------------------
 
 # Discrete exponential growth: N[t+1] = N[t] + r * N[t]
@@ -139,7 +143,7 @@ ui <- fluidPage(
       "Lecture slides",
       tags$iframe(
         style = "height:800px; width:100%; border:none;",
-        src = "pop_growth.pdf"
+        src = "pop_growth.html"
       )
     )
   )

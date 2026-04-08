@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Exponential Equation Guide</title>
+<title>Model Description</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,20 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="exp_equation_guide_files/libs/clipboard/clipboard.min.js"></script>
-<script src="exp_equation_guide_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="exp_equation_guide_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="exp_equation_guide_files/libs/quarto-html/popper.min.js"></script>
-<script src="exp_equation_guide_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="exp_equation_guide_files/libs/quarto-html/anchor.min.js"></script>
-<link href="exp_equation_guide_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="exp_equation_guide_files/libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="exp_equation_guide_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="exp_equation_guide_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="exp_equation_guide_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="model_description_files/libs/clipboard/clipboard.min.js"></script>
+<script src="model_description_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="model_description_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="model_description_files/libs/quarto-html/popper.min.js"></script>
+<script src="model_description_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="model_description_files/libs/quarto-html/anchor.min.js"></script>
+<link href="model_description_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="model_description_files/libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="model_description_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="model_description_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="model_description_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -75,7 +95,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exponential Equation Guide</h1>
+<h1 class="title">Model Description</h1>
 </div>
 
 
@@ -92,20 +112,79 @@ window.Quarto = {
 </header>
 
 
-<section id="equation-guide" class="level5">
-<h5 class="anchored" data-anchor-id="equation-guide"><strong>Equation Guide</strong></h5>
+<section id="model-description" class="level3">
+<h3 class="anchored" data-anchor-id="model-description">Model Description</h3>
+<p>Many population growth models exist in the biological and ecological literature. These equations are also used to describe a wide range of topics beyond population growth. Here we can explore two simple versions of <strong>deterministic, discrete, density-dependent, logistic growth models</strong>. By discrete we mean that we are not using a continuous growth equation (e.g.&nbsp;<span class="math inline">\(\frac{dN}{dt} = rN\left(1 - \frac{N_t}{K}\right)\)</span>) but discrete difference equations (Equations 1 and 2 below) that are discrete in time (denoted by <span class="math inline">\(N_t\)</span>, indicating the size of the population at the current time-step, and <span class="math inline">\(N_{t+1}\)</span> indicating the size of the population at the next time-step). By deterministic we mean that no stochasticity (random variability) is included, i.e.&nbsp;for any given set of model parameters (inputs) the resulting population growth will always be the same. And by density-dependent we mean that there is a defined limit (<span class="math inline">\(K\)</span>) to a population’s growth and as this limit is approached the growth rate of the population declines eventually to zero.</p>
+<p>The aim of this page is to provide a basic introduction to population models that can be interactively explored but not to attempt a detailed mathematical explanation or exploration of complicated population models. This can be used as an accompaniment to the academic literature as the models can be set up to reflect figures presented in, for example, <span class="citation" data-cites="Gillman2005">M. Gillman (<a href="#ref-Gillman2005" role="doc-biblioref">2005</a>)</span>, <span class="citation" data-cites="Gillman2009">Michael. Gillman (<a href="#ref-Gillman2009" role="doc-biblioref">2009</a>)</span>, and <span class="citation" data-cites="Gotelli2001">Gotelli (<a href="#ref-Gotelli2001" role="doc-biblioref">2001</a>)</span> and experimented with. This can also be used for demonstration purposes in lectures or tutorials, or as a student resource. All the information here is compiled from the references supplied at the end which provide detailed information on population growth models including calculating values for <span class="math inline">\(r\)</span>, the relationship between <span class="math inline">\(r\)</span> and <span class="math inline">\(\lambda\)</span>, and the effect of introducing stochasticity into the growth rate (<span class="math inline">\(r\)</span>) and carrying capacity (<span class="math inline">\(K\)</span>) terms.</p>
+<p>In the model tabs we can investigate the effect of different growth rates, starting populations, and carrying capacities on a logistically growing population. It is important to note at this point that these equations represent an idealised population, existing in an idealised environment, that reproduces at a constant rate for every time-step.</p>
+<p>In both model tabs the first (upper) graph shows the population size at a given time and the second (lower) graph shows the rate at which the population is changing, described simply as the difference in population per time-step (<span class="math inline">\(N_{t+1} - N_t\)</span>). The rate at which a population grows depends on: (a) the size of the population (<span class="math inline">\(N\)</span>); and (b) how close the population is to its limit (<span class="math inline">\(K\)</span>). The population grows fastest at <span class="math inline">\(K/2\)</span> (this is approximate in the discrete model) as there are the maximum number of reproducing individuals relative to the resources available.</p>
+<p><strong>Equation 1</strong> <span class="citation" data-cites="Gotelli2001">(<a href="#ref-Gotelli2001" role="doc-biblioref">Gotelli 2001</a>)</span>:</p>
+<p><span class="math display">\[N_{t+1} = N_t + r_d N_t \left(1 - \frac{N_t}{K}\right)\]</span></p>
+<p>Where:</p>
 <ul>
 <li><span class="math inline">\(N\)</span> is the population size at a given time-step (<span class="math inline">\(t\)</span>)</li>
 <li><span class="math inline">\(r_d\)</span> is the discrete growth rate
 <ul>
-<li><span class="math inline">\(r &gt; 0\)</span>: positive growth</li>
 <li><span class="math inline">\(r = 0\)</span>: no change</li>
+<li><span class="math inline">\(r &gt; 0\)</span>: positive growth</li>
 <li><span class="math inline">\(r &lt; 0\)</span>: population decline</li>
 </ul></li>
+<li><span class="math inline">\(K\)</span> is the carrying capacity</li>
+</ul>
+<p>This equation has three points of stability: <span class="math inline">\(K\)</span>, <span class="math inline">\(N = 0\)</span>, and <span class="math inline">\(r = 0\)</span>. At these points the population has either reached its maximum capacity for the environment, is extinct (or extirpated), or maintains its size without growing or declining.</p>
+<p><strong>Equation 2</strong> <span class="citation" data-cites="Gillman2005 Gillman2009">(<a href="#ref-Gillman2005" role="doc-biblioref">M. Gillman 2005</a>; <a href="#ref-Gillman2009" role="doc-biblioref">Michael. Gillman 2009</a>)</span>:</p>
+<p><span class="math display">\[N_{t+1} = \lambda N_t \left(1 - \frac{N_t}{K}\right)\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(N\)</span> is the population size at a given time-step (<span class="math inline">\(t\)</span>)</li>
+<li><span class="math inline">\(\lambda\)</span> is the finite rate of increase
+<ul>
+<li><span class="math inline">\(\lambda \gtrapprox 1.02\)</span>: positive growth</li>
+<li><span class="math inline">\(\lambda \lessapprox 1.01\)</span>: negative growth</li>
+</ul></li>
+<li><span class="math inline">\(K\)</span> is the carrying capacity</li>
+</ul>
+<p>Note that in this density-dependent model there are two points of stability: <span class="math inline">\(N = 0\)</span> (extinction or extirpation) and <span class="math inline">\(K\)</span>. Unlike Equation 1, in Equation 2, <span class="math inline">\(K\)</span> changes depending on the growth rate <span class="math inline">\(\lambda\)</span>. For example, if <span class="math inline">\(\lambda = 2\)</span> the population stabilises at <span class="math inline">\(K/2\)</span>. This is not the case for the continuous exponential model which is not covered here.</p>
+<section id="limit-cycles-and-chaos" class="level4">
+<h4 class="anchored" data-anchor-id="limit-cycles-and-chaos">Limit cycles and chaos</h4>
+<p>A topic that has fascinated scientists from many disciplines is how simple equations can give rise to complex dynamics. This is far beyond the scope of this page, however it can be explored in the models by altering the growth rates. While demonstrations of populations growing chaotically are rare, non-linearities and chaos in general are not, and we can produce these dynamics in these simple equations. The following values can be input in the model tabs to see the effect:</p>
+<p>In Equation 1 (Logistic model tab):</p>
+<ul>
+<li><span class="math inline">\(r_d &lt; 2.000\)</span>: population reaches <span class="math inline">\(K\)</span> with dampening oscillations</li>
+<li><span class="math inline">\(2.000 &lt; r_d &lt; 2.449\)</span>: two-point stable limit cycle</li>
+<li><span class="math inline">\(2.449 &lt; r_d &lt; 2.570\)</span>: limit cycles increase geometrically in period (2, 4, 8, 16…)</li>
+<li><span class="math inline">\(r_d &gt; 2.570\)</span>: aperiodic (irregular) patterns known as chaos</li>
 </ul>
 </section>
+<section id="model-assumptions-gotelli2001" class="level4">
+<h4 class="anchored" data-anchor-id="model-assumptions-gotelli2001">Model Assumptions <span class="citation" data-cites="Gotelli2001">(<a href="#ref-Gotelli2001" role="doc-biblioref">Gotelli 2001</a>)</span></h4>
+<ul>
+<li><strong>Growth is continuous without time lags:</strong> individuals are considered as being born and dying continuously and the rate of increase changes instantaneously as population size increases without discrete generations. Growth rate remains constant through time without stochasticity.</li>
+<li><strong>No age, size, or sex structure:</strong> birth and death rates of the population do not change with the age or body size of individuals. Every individual added to the population is immediately reproductive and does not have life stages of greater or lower reproductivity. This assumption is more realistically relaxed for modelling bacteria or protozoa, for example.</li>
+<li><strong>No genetic structure:</strong> individuals in the population are assumed to have the same birth and death rates and no underlying variation exists.</li>
+<li><strong>Carrying capacity:</strong> resource availability remains constant through time, excluding any variability or stochasticity.</li>
+<li><strong>Linear density dependence:</strong> for every individual added to the population the per-capita rate of population growth decreases linearly to zero when <span class="math inline">\(N\)</span> equals <span class="math inline">\(K\)</span>.</li>
+<li><strong>No immigration or emigration:</strong> immigration and emigration of individuals is assumed to not occur or to be equal.</li>
+</ul>
+<p>More complicated variations of these models address the limitations of the assumptions outlined above. In reality, violating some of these assumptions could be fatal to the accuracy of population projections depending on the population of interest, although they show in basic terms the principles of logistic population growth.</p>
+</section>
+<section id="references" class="level4 unnumbered">
 
-</main>
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Gillman2005" class="csl-entry" role="listitem">
+Gillman, Michael. 2005. <span>“<span>Population Dynamics: Introduction</span>.”</span> <em>Encyclopedia of Life Sciences</em>, September. <a href="https://doi.org/10.1038/npg.els.0003164">https://doi.org/10.1038/npg.els.0003164</a>.
+</div>
+<div id="ref-Gillman2009" class="csl-entry" role="listitem">
+Gillman, Michael. 2009. <em><span class="nocase">An introduction to mathematical models in ecology and evolution : time and space</span></em>. Wiley-Blackwell.
+</div>
+<div id="ref-Gotelli2001" class="csl-entry" role="listitem">
+Gotelli, Nicholas J. 2001. <em><span class="nocase">A Primer of Ecology</span></em>. Sinauer Associates.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
