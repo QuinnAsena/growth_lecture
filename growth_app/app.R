@@ -1,240 +1,249 @@
 # Author: Quinn Asena
 library(shiny)
-library(grDevices)
-library(knitr)
 library(ggplot2)
-library(data.table)
-ui <- fluidPage(
-  h1("Discrete Population Growth Models"), #Main page title
-  tabsetPanel(
-    ##################################################
-    #####     First tab for exp growth model     #####
-    ##################################################
-    tabPanel("r exponential model",
-             h1(includeHTML("exp_model_title_text.html")),
-             sidebarLayout(position = c("left"),
-                           sidebarPanel(
-                             h4("Model Parameters"),
-                             
-                             sliderInput(inputId = "r_exp_N",
-                                         label = "Starting Population (N)",
-                                         value = 10, min = 0, max = 1000),
-                             sliderInput(inputId = "r_exp",
-                                         label = "Discrete Growth Rate (r)",
-                                         value = 0.05, min = -1, max = 2, step = 0.01, round = FALSE),
-                             sliderInput(inputId = "r_exp_t",
-                                         label = "Time (t)",
-                                         value = 300, min = 0, max = 1000),
-                             h6(includeHTML("exp_equation_guide.html"))
-                           ), #close sidebarPanel
-                           
-                           mainPanel(
-                             plotOutput("exp_pop_plot"),
-                             plotOutput("exp_pop_roc_plot")
-                           )
-             )# close sidebarLayout
-    ), #close tabPanel1
-##################################################
-#####     Second tab for r growth model      #####
-##################################################
-    tabPanel("r discrete model",
-             h1(includeHTML("r_model_title_text.html")),
-  sidebarLayout(position = c("left"),
-                sidebarPanel(
-                  h4("Model Parameters"),
-                
-                sliderInput(inputId = "r_N",
-                            label = "Starting Population (N)",
-                            value = 10, min = 0, max = 999),
-                sliderInput(inputId = "r_K",
-                            label = "Carrying Capacity (K)",
-                            value = 1000, min = 0, max = 1000),
-                sliderInput(inputId = "r",
-                            label = "Discrete Growth Rate (r)",
-                            value = 0.05, min = -2, max = 4, step = 0.01, round = FALSE),
-                sliderInput(inputId = "r_t",
-                            label = "Time (t)",
-                            value = 300, min = 0, max = 1000),
-                h6(includeHTML("r_equation_guide.html"))
-                ), #close sidebarPanel
-                
-            mainPanel(
-            plotOutput("pop_plot"),
-            plotOutput("pop_roc_plot")
-            )
-  )# close sidebarLayout
-    ), #close tabPanel1
-##################################################
-#####     Third tab for stochastic model     #####
-##################################################
-tabPanel("r stochastic model",
-         h1(includeHTML("stoch_r_model_title_text.html")),
-         sidebarLayout(position = c("left"),
-                       sidebarPanel(
-                         h4("Model Parameters"),
-                         
-                         sliderInput(inputId = "r_stoch_N",
-                                     label = "Starting Population (N)",
-                                     value = 10, min = 0, max = 999),
-                         sliderInput(inputId = "r_stoch_K",
-                                     label = "Carrying Capacity (K)",
-                                     value = 1000, min = 0, max = 1000),
-                         sliderInput(inputId = "r_stoch_t",
-                                     label = "Time (t)",
-                                     value = 300, min = 0, max = 1000),
-                         sliderInput(inputId = "r_mu",
-                                     label = "Mean Discrete Growth Rate (r)",
-                                     value = 0.05, min = -1, max = 1, step = 0.01, round = FALSE),
-                         sliderInput(inputId = "r_sd",
-                                     label = "r SD",
-                                     value = 0.15, min = 0, max = 0.5, step = 0.01),
-                         sliderInput(inputId = "no_runs",
-                                     label = "Number of runs",
-                                     value = 10, min = 1, max = 10, step = 1),
-                         h6(includeHTML("stoch_r_equation_guide.html"))
-                       ), #close sidebarPanel
-                       
-                       mainPanel(
-                         plotOutput("stoch_pop_plot"),
-                         plotOutput("stoch_pop_roc_plot")
-                       )
-         )# close sidebarLayout
-), #close tabPanel1
 
-##################################################
-#####   Fourth tab for model descriptions     #####
-##################################################
-tabPanel("Lecture slides",
-         tags$iframe(style="height:800px; width:100%;",  src="pop_growth.pdf"))# close tabPanel3
+# --- Growth model functions ---------------------------------------------------
 
-  ) #close tabsetPanel
-) #close fluidPage
-##################################################
-#####              Functions                 #####
-##################################################
-# exponential model
-r_exp.fun <- function(r = 0.05, N_pop = 10, t = 100)
-{
-  N <- vector("numeric", length = t)
+# Discrete exponential growth: N[t+1] = N[t] + r * N[t]
+exp_growth <- function(r = 0.05, N_pop = 10, t = 100) {
+  N <- numeric(t)
   N[1] <- N_pop
-  for (i in 2:t)
-  {
-    N[i] <- N[i-1] + (N[i-1] * r)
+  for (i in 2:t) {
+    N[i] <- N[i - 1] + N[i - 1] * r
   }
-  return(N)
+  N
 }
 
-##### function for r model (Nt+1 = Nt + rdNt * (1-Nt/K))
-r_logistic.fun <- function(r = 0.05, K = 100, N_pop = 10, t = 100)
-{
-  N <- vector("numeric", length = t)
+# Discrete logistic growth: N[t+1] = N[t] + r * N[t] * (1 - N[t] / K)
+logistic_growth <- function(r = 0.05, K = 1000, N_pop = 10, t = 100) {
+  N <- numeric(t)
   N[1] <- N_pop
-  for (i in 2:t)
-  {
-    N[i] <- N[i-1] + (r * N[i-1] * (1 - N[i-1] / K))   # version 2 with R
+  for (i in 2:t) {
+    N[i] <- N[i - 1] + r * N[i - 1] * (1 - N[i - 1] / K)
   }
   N <- ifelse(N <= 0, 0, N)
-  return(N)
+  N
 }
-##### stochastic model
-r_stochastic.fun <- function(r_mu = 0.05, r_sd = 0.15, K = 1000, N_pop = 10, t = 250)
-{
-  pop_df <- data.frame(r_vec = rnorm(t, r_mu, r_sd),
-                       N = N_pop,
-                       time = 1:t)
-  
-  for (i in 2:length(pop_df$N))
-  {
-    pop_df$N[i] <- pop_df$N[i-1] + (pop_df$r_vec[i-1] * pop_df$N[i-1] * (1 - pop_df$N[i-1] / K))   # version 2 with R
+
+# Stochastic logistic growth: r drawn from N(r_mu, r_sd) each time-step
+stochastic_growth <- function(r_mu = 0.05, r_sd = 0.15, K = 1000,
+                              N_pop = 10, t = 250) {
+  pop_df <- data.frame(
+    r_vec = rnorm(t, r_mu, r_sd),
+    N     = N_pop,
+    time  = seq_len(t)
+  )
+  for (i in 2:nrow(pop_df)) {
+    pop_df$N[i] <- pop_df$N[i - 1] +
+      pop_df$r_vec[i - 1] * pop_df$N[i - 1] * (1 - pop_df$N[i - 1] / K)
   }
   pop_df$N <- ifelse(pop_df$N <= 0, 0, pop_df$N)
-  return(pop_df)
+  pop_df
 }
-##### Function for rate of change (Nt - Nt+1)
-pop_roc_fun <- function(pop_vec){
-  for (i in length(pop_vec):2)
-  {
-    pop_vec[i] <- pop_vec[i] - pop_vec[i-1]
-  }
-  pop_vec[1] <- NA
-  return(pop_vec)
+
+# Rate of change between consecutive time-steps
+rate_of_change <- function(pop_vec) c(NA, diff(pop_vec))
+
+# --- Shared ggplot theme ------------------------------------------------------
+
+theme_app <- function(base_size = 14) {
+  theme_minimal(base_size = base_size) +
+    theme(
+      plot.title = element_text(face = "bold")
+    )
 }
-##################################################
-#####                Outputs                 #####
-##################################################
-# Create reactive data from function so input values are the same for both following plots and update dynamically
-server <- function(input, output){
-  
+
+# --- UI -----------------------------------------------------------------------
+
+ui <- fluidPage(
+  withMathJax(),
+  titlePanel("Discrete Population Growth Models"),
+  tabsetPanel(
+
+    # Tab 1 — Exponential growth -----------------------------------------------
+    tabPanel(
+      "Exponential model",
+      includeHTML("exp_model_title_text.html"),
+      sidebarLayout(
+        sidebarPanel(
+          h4("Model Parameters"),
+          sliderInput("r_exp_N", "Starting Population (N)",
+                      value = 10, min = 0, max = 1000),
+          sliderInput("r_exp", "Discrete Growth Rate (r)",
+                      value = 0.05, min = -1, max = 2, step = 0.01),
+          sliderInput("r_exp_t", "Time (t)",
+                      value = 300, min = 1, max = 1000),
+          includeHTML("exp_equation_guide.html")
+        ),
+        mainPanel(
+          plotOutput("exp_pop_plot"),
+          plotOutput("exp_pop_roc_plot")
+        )
+      )
+    ),
+
+    # Tab 2 — Logistic growth --------------------------------------------------
+    tabPanel(
+      "Logistic model",
+      includeHTML("r_model_title_text.html"),
+      sidebarLayout(
+        sidebarPanel(
+          h4("Model Parameters"),
+          sliderInput("r_N", "Starting Population (N)",
+                      value = 10, min = 0, max = 999),
+          sliderInput("r_K", "Carrying Capacity (K)",
+                      value = 1000, min = 1, max = 1000),
+          sliderInput("r", "Discrete Growth Rate (r)",
+                      value = 0.05, min = -2, max = 4, step = 0.01),
+          sliderInput("r_t", "Time (t)",
+                      value = 300, min = 1, max = 1000),
+          includeHTML("r_equation_guide.html")
+        ),
+        mainPanel(
+          plotOutput("pop_plot"),
+          plotOutput("pop_roc_plot")
+        )
+      )
+    ),
+
+    # Tab 3 — Stochastic growth ------------------------------------------------
+    tabPanel(
+      "Stochastic model",
+      includeHTML("stoch_r_model_title_text.html"),
+      sidebarLayout(
+        sidebarPanel(
+          h4("Model Parameters"),
+          sliderInput("r_stoch_N", "Starting Population (N)",
+                      value = 10, min = 0, max = 999),
+          sliderInput("r_stoch_K", "Carrying Capacity (K)",
+                      value = 1000, min = 1, max = 1000),
+          sliderInput("r_stoch_t", "Time (t)",
+                      value = 300, min = 1, max = 1000),
+          sliderInput("r_mu", "Mean Discrete Growth Rate (r)",
+                      value = 0.05, min = -1, max = 1, step = 0.01),
+          sliderInput("r_sd", "Standard Deviation of r",
+                      value = 0.15, min = 0, max = 0.5, step = 0.01),
+          sliderInput("no_runs", "Number of runs",
+                      value = 10, min = 1, max = 10, step = 1),
+          includeHTML("stoch_r_equation_guide.html")
+        ),
+        mainPanel(
+          plotOutput("stoch_pop_plot"),
+          plotOutput("stoch_pop_roc_plot")
+        )
+      )
+    ),
+
+    # Tab 4 — Lecture slides ---------------------------------------------------
+    tabPanel(
+      "Lecture slides",
+      tags$iframe(
+        style = "height:800px; width:100%; border:none;",
+        src = "pop_growth.pdf"
+      )
+    )
+  )
+)
+
+# --- Server -------------------------------------------------------------------
+
+server <- function(input, output) {
+
+
+  # Exponential model ----------------------------------------------------------
+
   r_exponential_data <- reactive({
-    r_exp.fun(r = input$r_exp, N_pop = input$r_exp_N, t=input$r_exp_t)
+    req(input$r_exp_t >= 1)
+    exp_growth(r = input$r_exp, N_pop = input$r_exp_N, t = input$r_exp_t)
   })
-  # Plot logistic function  
-  output$exp_pop_plot <- renderPlot(
-    if (input$r_exp > 2.45){
-      plot(r_exponential_data(),
-           type = 'l', lwd = 1, col = 'red', ylab = 'Population size (N)', xlab='Time', 
-           cex.lab = 1, cex.axis = 1)
-    } else {
-      plot(r_exponential_data(),
-           type = 'l', lwd = 1, col = 'darkblue', ylab = 'Population size (N)', xlab='Time', 
-           cex.lab = 1, cex.axis = 1)
-    }
-  )
-  
-  # Plot rate of change function  
-  output$exp_pop_roc_plot <- renderPlot(
-    plot(y = pop_roc_fun(r_exponential_data()), x = r_exponential_data(),
-         type = 'l', lwd = 1, col = 'darkblue', ylab = expression(paste("Change in population (",Delta, "Nt)")), xlab='Population size (N)', 
-         cex.lab = 1, cex.axis = 1))
-  
-##################################################  
+
+  output$exp_pop_plot <- renderPlot({
+    N <- r_exponential_data()
+    df <- data.frame(time = seq_along(N), N = N)
+    ggplot(df, aes(x = time, y = N)) +
+      geom_line(colour = "#0077b6", linewidth = 0.9) +
+      labs(x = "Time", y = "Population size (N)") +
+      theme_app()
+  })
+
+  output$exp_pop_roc_plot <- renderPlot({
+    N <- r_exponential_data()
+    df <- data.frame(N = N, dN = rate_of_change(N))
+    ggplot(df, aes(x = N, y = dN)) +
+      geom_line(colour = "#0077b6", linewidth = 0.9) +
+      labs(x = "Population size (N)",
+           y = expression(paste("Change in population (", Delta, "N)"))) +
+      theme_app()
+  })
+
+  # Logistic model -------------------------------------------------------------
+
   r_logistic_data <- reactive({
-    r_logistic.fun(r = input$r, K = input$r_K, N_pop = input$r_N, t=input$r_t)
+    req(input$r_t >= 1)
+    logistic_growth(r = input$r, K = input$r_K, N_pop = input$r_N, t = input$r_t)
   })
-  # Plot logistic function  
-  output$pop_plot <- renderPlot(
-    if (input$r > 2.45){
-    plot(r_logistic_data(),
-         type = 'l', lwd = 1, col = 'red', ylab = 'Population size (N)', xlab='Time', 
-         cex.lab = 1, cex.axis = 1)
-    } else {
-      plot(r_logistic_data(),
-           type = 'l', lwd = 1, col = 'darkblue', ylab = 'Population size (N)', xlab='Time', 
-           cex.lab = 1, cex.axis = 1)
+
+  output$pop_plot <- renderPlot({
+    N <- r_logistic_data()
+    df <- data.frame(time = seq_along(N), N = N)
+    line_colour <- if (input$r > 2.45) "#d62828" else "#0077b6"
+    ggplot(df, aes(x = time, y = N)) +
+      geom_line(colour = line_colour, linewidth = 0.9) +
+      labs(x = "Time", y = "Population size (N)") +
+      theme_app()
+  })
+
+  output$pop_roc_plot <- renderPlot({
+    N <- r_logistic_data()
+    df <- data.frame(N = N, dN = rate_of_change(N))
+    ggplot(df, aes(x = N, y = dN)) +
+      geom_line(colour = "#0077b6", linewidth = 0.9) +
+      labs(x = "Population size (N)",
+           y = expression(paste("Change in population (", Delta, "N)"))) +
+      theme_app()
+  })
+
+  # Stochastic model -----------------------------------------------------------
+
+  r_stochastic_data <- reactive({
+    req(input$r_stoch_t >= 1)
+    runs <- replicate(
+      input$no_runs,
+      stochastic_growth(
+        r_mu  = input$r_mu,
+        r_sd  = input$r_sd,
+        K     = input$r_stoch_K,
+        N_pop = input$r_stoch_N,
+        t     = input$r_stoch_t
+      ),
+      simplify = FALSE
+    )
+    for (i in seq_along(runs)) {
+      runs[[i]]$run_id <- factor(i)
     }
-  )
-    
-  # Plot rate of change function  
-  output$pop_roc_plot <- renderPlot(
-    plot(y = pop_roc_fun(r_logistic_data()), x = r_logistic_data(),
-         type = 'l', lwd = 1, col = 'darkblue', ylab = expression(paste("Change in population (",Delta, "Nt)")), xlab='Population size (N)', 
-         cex.lab = 1, cex.axis = 1))
-##################################################
-  # Create reactive data from function so input values are the same for both following plots and update dynamically
-  r_stochastic_data <- reactive({rbindlist(
-    replicate(input$no_runs,
-    r_stochastic.fun(r_mu = input$r_mu, r_sd = input$r_sd, K = input$r_stoch_K, N_pop = input$r_stoch_N, t=input$r_stoch_t),
-    simplify = FALSE),
-    idcol = "run_id")
+    do.call(rbind, runs)
   })
 
-  # Plot stochastic population function
-  output$stoch_pop_plot <- renderPlot(
-    ggplot(r_stochastic_data(), aes(x = time, y = N, group = run_id, colour = run_id))+
-      geom_line(show.legend = FALSE)+
-      ylab("Population size(N)")+
-      xlab("time")+
-      theme_minimal())
+  output$stoch_pop_plot <- renderPlot({
+    ggplot(r_stochastic_data(), aes(x = time, y = N,
+                                     group = run_id, colour = run_id)) +
+      geom_line(linewidth = 0.7, show.legend = FALSE) +
+      scale_colour_viridis_d(option = "plasma") +
+      labs(x = "Time", y = "Population size (N)") +
+      theme_app()
+  })
 
-  # Plot stochastic rate of change
   output$stoch_pop_roc_plot <- renderPlot({
     stoch_data <- r_stochastic_data()
-    stoch_data[, roc := c(NA, diff(N)), by = run_id]
-    ggplot(stoch_data, aes(x = N, y = roc, group = run_id, colour = run_id)) +
-      geom_line(show.legend = FALSE) +
-      ylab(expression(paste("Change in population (", Delta, "Nt)"))) +
-      xlab("Population size (N)") +
-      theme_minimal()
+    stoch_data$dN <- ave(stoch_data$N, stoch_data$run_id,
+                         FUN = function(x) c(NA, diff(x)))
+    ggplot(stoch_data, aes(x = N, y = dN,
+                            group = run_id, colour = run_id)) +
+      geom_line(linewidth = 0.7, show.legend = FALSE) +
+      scale_colour_viridis_d(option = "plasma") +
+      labs(x = "Population size (N)",
+           y = expression(paste("Change in population (", Delta, "N)"))) +
+      theme_app()
   })
 }
 

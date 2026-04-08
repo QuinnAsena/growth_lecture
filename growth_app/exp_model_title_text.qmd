@@ -1,0 +1,8 @@
+---
+title: "Exponential Growth Model"
+format: html
+---
+
+## Discrete exponential growth model
+
+$$N_{t+1} = N_t + r_d N_t$$

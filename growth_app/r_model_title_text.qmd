@@ -1,0 +1,8 @@
+---
+title: "Logistic Growth Model"
+format: html
+---
+
+## Discrete logistic growth model
+
+$$N_{t+1} = N_t + r_d N_t \left(1 - \frac{N_t}{K}\right)$$

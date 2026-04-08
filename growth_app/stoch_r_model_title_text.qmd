@@ -1,0 +1,8 @@
+---
+title: "Stochastic Growth Model"
+format: html
+---
+
+## Stochastic discrete growth model
+
+$$N_{t+1} = N_t + r_d N_t \left(1 - \frac{N_t}{K}\right), \quad \text{where } r_d \sim \mathcal{N}(\mu, \sigma^2)$$

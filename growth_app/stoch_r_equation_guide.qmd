@@ -1,0 +1,16 @@
+---
+title: "Stochastic Equation Guide"
+format: html
+---
+
+##### **Equation Guide**
+
+- $N$ is the population size at a given time-step ($t$)
+- $r_d$ is the mean discrete growth rate, drawn from a normal distribution each time-step
+    - $r = 0$: no change
+    - $r > 0$: positive growth
+    - $r < 0$: population decline
+- $K$ is the carrying capacity
+- $r$ SD is the standard deviation of the normal distribution from which $r_d$ is drawn
+
+In this model, stochasticity is introduced by drawing the value of $r$ from a Gaussian distribution at each time-step.
