@@ -12,6 +12,7 @@ format:
     footer: "Population Ecology | Growth Models"
     controls: true
     chalkboard: true
+    smaller: true
 knitr:
   opts_chunk:
     dev.args:

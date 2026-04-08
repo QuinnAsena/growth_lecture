@@ -142,7 +142,7 @@ ui <- fluidPage(
     tabPanel(
       "Lecture slides",
       tags$iframe(
-        style = "height:800px; width:100%; border:none;",
+        style = "height:85vh; width:100%; border:none;",
         src = "pop_growth.html"
       )
     )
