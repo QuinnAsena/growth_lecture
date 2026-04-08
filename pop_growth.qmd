@@ -179,7 +179,7 @@ $$\frac{dN}{dt}=rN$$
 :::: {.column width="50%"}
 $N$ = _population size_
 
-$r$ = _intrinsic rate or increase_
+$r$ = _intrinsic rate of increase_
 ::::
 :::
 
