@@ -12,7 +12,7 @@
 ##### __Equation Guide__
 
 * $N$ is the population at a given time-step (t)  
-* $r_d$ is the mean descrete growth factor for a normal distribution from which $r$ is drawn. 
+* $r_d$ is the mean discrete growth factor for a normal distribution from which $r$ is drawn. 
     * $r=0$ is no growth
     * $r>0$ is positive growth 
     * $r<0$ is negative growth

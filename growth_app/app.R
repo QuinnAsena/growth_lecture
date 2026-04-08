@@ -4,9 +4,8 @@ library(grDevices)
 library(knitr)
 library(ggplot2)
 library(data.table)
-#setwd("C:/Users/qase352/Dropbox/QuinnAsenaPhD/R/pop_growth_lecture/growth_app")
 ui <- fluidPage(
-  h1("Deterministic Discrete Population Growth Models"), #Main page title
+  h1("Discrete Population Growth Models"), #Main page title
   tabsetPanel(
     ##################################################
     #####     First tab for exp growth model     #####
@@ -69,7 +68,7 @@ ui <- fluidPage(
 #####     Third tab for stochastic model     #####
 ##################################################
 tabPanel("r stochastic model",
-         h1(includeHTML("r_model_title_text.html")),
+         h1(includeHTML("stoch_r_model_title_text.html")),
          sidebarLayout(position = c("left"),
                        sidebarPanel(
                          h4("Model Parameters"),
@@ -149,12 +148,6 @@ r_stochastic.fun <- function(r_mu = 0.05, r_sd = 0.15, K = 1000, N_pop = 10, t =
     pop_df$N[i] <- pop_df$N[i-1] + (pop_df$r_vec[i-1] * pop_df$N[i-1] * (1 - pop_df$N[i-1] / K))   # version 2 with R
   }
   pop_df$N <- ifelse(pop_df$N <= 0, 0, pop_df$N)
-  
-  # pop_df <- pop_df %>% 
-  #   mutate(stoch_pop = N + (r_vec * N) * (1-N / K),
-  #          time = 1:n())
-  # pop_df$stoch_pop[1] <- N_pop
-  
   return(pop_df)
 }
 ##### Function for rate of change (Nt - Nt+1)
@@ -177,7 +170,7 @@ server <- function(input, output){
   })
   # Plot logistic function  
   output$exp_pop_plot <- renderPlot(
-    if (input$r > 2.45){
+    if (input$r_exp > 2.45){
       plot(r_exponential_data(),
            type = 'l', lwd = 1, col = 'red', ylab = 'Population size (N)', xlab='Time', 
            cex.lab = 1, cex.axis = 1)
@@ -224,27 +217,25 @@ server <- function(input, output){
     simplify = FALSE),
     idcol = "run_id")
   })
-  #r_stochastic_data() <- rbindlist(r_stochastic_data(), idcol = "run_id")
-  # Plot logistic function  
-  # output$stoch_pop_plot <- renderPlot(
-  #   if (input$r > 2.45){
-  #     plot(r_stochastic_data(),
-  #          type = 'l', lwd = 1, col = 'red', ylab = 'Population size (N)', xlab='Time', 
-  #          cex.lab = 1, cex.axis = 1)
-  #   } else {
-  #     plot(r_stochastic_data(),
-  #          type = 'l', lwd = 1, col = 'darkblue', ylab = 'Population size (N)', xlab='Time', 
-  #          cex.lab = 1, cex.axis = 1)
-  #   }
-  # )
-  
-  # Plot rate of change function  
+
+  # Plot stochastic population function
   output$stoch_pop_plot <- renderPlot(
     ggplot(r_stochastic_data(), aes(x = time, y = N, group = run_id, colour = run_id))+
       geom_line(show.legend = FALSE)+
       ylab("Population size(N)")+
       xlab("time")+
       theme_minimal())
+
+  # Plot stochastic rate of change
+  output$stoch_pop_roc_plot <- renderPlot({
+    stoch_data <- r_stochastic_data()
+    stoch_data[, roc := c(NA, diff(N)), by = run_id]
+    ggplot(stoch_data, aes(x = N, y = roc, group = run_id, colour = run_id)) +
+      geom_line(show.legend = FALSE) +
+      ylab(expression(paste("Change in population (", Delta, "Nt)"))) +
+      xlab("Population size (N)") +
+      theme_minimal()
+  })
 }
 
 shinyApp(ui = ui, server = server)
