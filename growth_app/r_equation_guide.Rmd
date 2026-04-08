@@ -12,7 +12,7 @@
 ##### __Equation Guide__
 
 * $N$ is the population at a given time-step (t)  
-* $r_d$ is the descrete growth factor. 
+* $r_d$ is the discrete growth factor. 
     * $r=0$ is no growth
     * $r>0$ is positive growth 
     * $r<0$ is negative growth

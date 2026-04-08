@@ -9,5 +9,5 @@
 #knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Discrete population growth model:
-$N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)$
+## Stochastic discrete population growth model:
+$N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)$, where $r_d \sim \mathcal{N}(\mu, \sigma^2)$
