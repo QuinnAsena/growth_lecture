@@ -3,6 +3,7 @@ title: "Population Ecology"
 subtitle: "Exponential, logistic, and stochastic growth models"
 author: ""
 date: today
+embed-resources: true
 format:
   revealjs:
     theme: [moon, custom.scss]
@@ -11,7 +12,7 @@ format:
     transition: slide
     footer: "Population Ecology | Growth Models"
     controls: true
-    chalkboard: true
+#    chalkboard: true
     smaller: true
 knitr:
   opts_chunk:
