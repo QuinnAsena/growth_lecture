@@ -5,7 +5,7 @@ author: ""
 date: today
 format:
   revealjs:
-    theme: moon
+    theme: [moon, custom.scss]
     highlight-style: github
     slide-number: true
     transition: slide
@@ -117,7 +117,7 @@ theme_lecture <- function(base_size = 13) {
 
 - Informing management of invasive species, fisheries, and epidemics
 
-## Part 1: Exponential population growth {background-color="#1a1a2e"}
+## Part 1: Exponential population growth {background-color="#09414d"}
 
 ::: {style="text-align: center;"}
 Density independent growth
@@ -391,7 +391,7 @@ ggplot(exp_pop, aes(x = N, y = dNdt)) +
 
   - _Correct!_ Enter **density dependence** — Part 2.
 
-## Assumptions of the exponential model {background-color="#1a1a2e"}
+## Assumptions of the exponential model {background-color="#09414d"}
 
 ::: {style="text-align: center;"}
 Take 5 minutes to discuss the assumptions of the exponential growth model
@@ -399,7 +399,7 @@ Take 5 minutes to discuss the assumptions of the exponential growth model
 ( ͡° ͜ʖ ͡°)
 :::
 
-## Part 2: Logistic population growth {background-color="#1a1a2e"}
+## Part 2: Logistic population growth {background-color="#09414d"}
 
 ::: {style="text-align: center;"}
 Density dependent growth
@@ -587,7 +587,7 @@ ggplot(exp_roc, aes(x = N, y = dNdt)) +
   theme_lecture()
 ```
 
-## Assumptions of the logistic model {background-color="#1a1a2e"}
+## Assumptions of the logistic model {background-color="#09414d"}
 
 ::: {style="text-align: center;"}
 Take 5 minutes to discuss the assumptions of the logistic growth model
@@ -595,7 +595,7 @@ Take 5 minutes to discuss the assumptions of the logistic growth model
 (ᵔᴥᵔ)
 :::
 
-## Part 3: Introducing stochasticity {background-color="#1a1a2e"}
+## Part 3: Introducing stochasticity {background-color="#09414d"}
 
 ::: {style="text-align: center;"}
 Non-deterministic growth
@@ -710,11 +710,11 @@ We have covered:
 
 - Check your outputs for logical sense: if numbers look extreme, trace back your inputs and equations
 
-## Go forth and model! {background-color="#1a1a2e"}
+## Go forth and model! {background-color="#09414d"}
 
 ::: {style="text-align: center;"}
 
-\ (•◡•) /
+\\ (•◡•) /
 
 :::
 

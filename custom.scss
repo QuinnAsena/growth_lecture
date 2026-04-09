@@ -1,0 +1,19 @@
+/*-- scss:defaults --*/
+// Override reveal.js dark theme tokens here if needed
+// e.g. $link-color: #7eb8f7;
+
+/*-- scss:rules --*/
+
+// Increase spacing between slide headings and body text
+.reveal h2 {
+  margin-bottom: 0.6em;
+}
+
+// Centred big-text slides
+// reveal.js absolutely positions sections, so flex on the section itself
+// fights the renderer — use transform-based centering instead
+.reveal .slides section.big-text {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  text-align: center;
+}
