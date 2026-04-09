@@ -45,8 +45,6 @@ rsconnect/
 *_files/
 _site/
 _freeze/
-*.html
-!growth_app/*.html
 
 # OS files
 .DS_Store

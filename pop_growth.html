@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="pop_growth_files/libs/clipboard/clipboard.min.js"></script>
+<script src="pop_growth_files/libs/quarto-html/tabby.min.js"></script>
+<script src="pop_growth_files/libs/quarto-html/popper.min.js"></script>
+<script src="pop_growth_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="pop_growth_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="pop_growth_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="pop_growth_files/libs/quarto-html/quarto-syntax-highlighting-dark-e2182856f2c32102dd26b05a5ef16cb5.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.30">
+
+  <meta name="author" content="">
+  <meta name="dcterms.date" content="2026-04-09">
+  <title>Population Ecology</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="pop_growth_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="pop_growth_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="pop_growth_files/libs/revealjs/dist/theme/quarto-daeccff9ee9cff6609941dc84eaacc41.css">
+  <link href="pop_growth_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="pop_growth_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="pop_growth_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="pop_growth_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="pop_growth_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="pop_growth_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Population Ecology</h1>
+  <p class="subtitle">Exponential, logistic, and stochastic growth models</p>
+
+<div class="quarto-title-authors">
+</div>
+
+  <p class="date">2026-04-09</p>
+</section>
+<section id="part-lecture-with-breaks" class="slide level2">
+<h2>3-part lecture (with breaks)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p><strong>Part 1</strong> Exponential growth</p></li>
+<li><p><strong>Part 2</strong> Logistic growth — <em>density dependent</em></p></li>
+<li><p><strong>Part 3</strong> Logistic growth with stochasticity</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="pop_growth_files/lego_pop_img.png"></p>
+</div></div>
+</section>
+<section id="part-1-why-study-population-growth" class="slide level2">
+<h2>Part 1: Why study population growth?</h2>
+<div class="fragment">
+<ul>
+<li><p>Project future populations</p>
+<ul>
+<li>Global human population expected to reach 9.8 billion by 2050</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Conservation of threatened species</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Sustainable use of natural resources</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Informing management of invasive species, fisheries, and epidemics</li>
+</ul>
+</div>
+</section>
+<section id="part-1-exponential-population-growth" class="slide level2" data-background-color="#09414d">
+<h2>Part 1: Exponential population growth</h2>
+<div style="text-align: center;">
+<p>Density independent growth <span class="math display">\[\frac{dN}{dt}=rN\]</span></p>
+</div>
+</section>
+<section id="exponential-growth" class="slide level2">
+<h2>Exponential growth</h2>
+<p>What is required for a population to grow?</p>
+<div class="fragment">
+<p>How many births and how many deaths?</p>
+<p><span class="math display">\[N_{t+1} = N_t + B - D + I - E\]</span></p>
+<ul>
+<li><span class="math inline">\(B\)</span> = <em>Births</em></li>
+<li><span class="math inline">\(D\)</span> = <em>Deaths</em></li>
+<li><span class="math inline">\(I\)</span> = <em>Immigration</em></li>
+<li><span class="math inline">\(E\)</span> = <em>Emigration</em></li>
+</ul>
+</div>
+<div class="fragment">
+<p>If we assume immigration and emigration are equal, the change in population size simplifies to:</p>
+<p><span class="math display">\[\Delta N = B - D\]</span></p>
+</div>
+</section>
+<section id="exponential-growth-1" class="slide level2">
+<h2>Exponential growth</h2>
+<p><span class="math display">\[\Delta N = B - D\]</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>More births than deaths: the population grows</li>
+</ul>
+<div style="text-align: center;">
+<p><img data-src="pop_growth_files/happy_face.png" style="width:50.0%"></p>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>More deaths than births: the population declines</li>
+</ul>
+<div class="fragment">
+<p><img data-src="pop_growth_files/happy_face_blood.jpg"></p>
+</div>
+</div></div>
+</section>
+<section id="exponential-growth-2" class="slide level2">
+<h2>Exponential growth</h2>
+<p><em>Change in population</em> (<span class="math inline">\(dN\)</span>) <em>over a very small interval of time</em> (<span class="math inline">\(dt\)</span>):</p>
+<p><span class="math display">\[\frac{dN}{dt}=B-D\]</span></p>
+<div class="fragment">
+<p>Births and deaths are expressed as per-capita rates:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="math display">\[B = bN\]</span> <span class="math inline">\(b\)</span> = instantaneous birth rate</p>
+<p>[births / (individual · time)]</p>
+</div><div class="column" style="width:50%;">
+<p><span class="math display">\[D = dN\]</span></p>
+<p><span class="math inline">\(d\)</span> = instantaneous death rate</p>
+<p>[deaths / (individual · time)]</p>
+</div></div>
+</div>
+</section>
+<section id="exponential-growth-3" class="slide level2">
+<h2>Exponential growth</h2>
+<p>Substituting gives change in population over time:</p>
+<p><span class="math display">\[\frac{dN}{dt}=(b-d)N\]</span></p>
+<div class="fragment">
+<p><span class="math display">\[\frac{dN}{dt}=(0.55-0.50)N\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[\frac{dN}{dt}=(0.55-0.50)\times100\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[\frac{dN}{dt}=0.05\times100\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[\frac{dN}{dt}=5\]</span></p>
+</div>
+</section>
+<section id="exponential-growth-4" class="slide level2">
+<h2>Exponential growth</h2>
+<p>Letting <span class="math inline">\(r = b - d\)</span>, the <strong>intrinsic rate of increase</strong>, gives the continuous exponential growth equation:</p>
+<p><span class="math display">\[\frac{dN}{dt}=rN\]</span></p>
+<div class="fragment">
+<div style="text-align: center;">
+<p><img data-src="pop_growth_files/ta_da.png" style="width:60.0%"></p>
+</div>
+</div>
+</section>
+<section id="exponential-growth-5" class="slide level2">
+<h2>Exponential growth</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="math display">\[\frac{dN}{dt}=rN\]</span></p>
+</div><div class="column" style="width:50%;">
+<p><span class="math inline">\(N\)</span> = <em>population size</em></p>
+<p><span class="math inline">\(r\)</span> = <em>intrinsic rate of increase</em></p>
+</div></div>
+<p><span class="math inline">\(r\)</span> determines whether a population grows or declines:</p>
+<ul>
+<li><span class="math inline">\(r = 0\)</span> &nbsp; no change</li>
+<li><span class="math inline">\(r &gt; 0\)</span> &nbsp; population grows</li>
+<li><span class="math inline">\(r &lt; 0\)</span> &nbsp; population declines</li>
+</ul>
+<p>The differential equation describes the growth <strong>rate</strong>, not the population size.</p>
+</section>
+<section id="exponential-growth-6" class="slide level2">
+<h2>Exponential growth</h2>
+<p>The size of an exponentially growing population at time <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[N_t = N_0e^{rt}\]</span></p>
+<div class="fragment">
+<p>The <strong>discrete</strong> version gives population size per time-step:</p>
+<p><span class="math display">\[N_{t+1} = N_t + r_dN_t\]</span></p>
+<p><span class="math display">\[N_{t+1} = 100 + 0.05 \times 100 = 105\]</span></p>
+<p><span class="math inline">\(N_t\)</span> = population size at time <span class="math inline">\(t\)</span></p>
+<p><span class="math inline">\(r_d\)</span> = discrete growth rate</p>
+</div>
+</section>
+<section id="exponential-growth-7" class="slide level2">
+<h2>Exponential growth</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Theoretical populations with different values of <span class="math inline">\(r\)</span></p>
+<ul>
+<li><span class="math inline">\(r = 0\)</span> &nbsp; no change</li>
+<li><span class="math inline">\(r &gt; 0\)</span> &nbsp; growth</li>
+<li><span class="math inline">\(r &lt; 0\)</span> &nbsp; decline</li>
+</ul>
+<p>Taking the natural log of population size linearises exponential growth.</p>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="pop_growth_files/figure-revealjs/plot-exp-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="exponential-growth-8" class="slide level2">
+<h2>Exponential growth</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Exponential growth</p>
+</div><div class="column" style="width:50%;">
+<p>Log of exponential growth</p>
+</div></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-exp-log-1.png" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-exp-log-2.png" width="480"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="growth-rates-across-species" class="slide level2">
+<h2>Growth rates across species</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Common name</th>
+<th><span class="math inline">\(r\)</span> [ind/(ind·day)]</th>
+<th>Doubling time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Virus</td>
+<td>300.0</td>
+<td>3.3 minutes</td>
+</tr>
+<tr class="even">
+<td>Bacterium</td>
+<td>58.7</td>
+<td>17 minutes</td>
+</tr>
+<tr class="odd">
+<td>Protozoan</td>
+<td>1.59</td>
+<td>10.5 hours</td>
+</tr>
+<tr class="even">
+<td>Hydra</td>
+<td>0.34</td>
+<td>2 days</td>
+</tr>
+<tr class="odd">
+<td>Flour beetle</td>
+<td>0.101</td>
+<td>6.9 days</td>
+</tr>
+<tr class="even">
+<td>Brown rat</td>
+<td>0.0148</td>
+<td>46.8 days</td>
+</tr>
+<tr class="odd">
+<td>Domestic cow</td>
+<td>0.001</td>
+<td>1.9 years</td>
+</tr>
+<tr class="even">
+<td>Mangrove</td>
+<td>0.00055</td>
+<td>3.5 years</td>
+</tr>
+<tr class="odd">
+<td>Southern beech</td>
+<td>0.000075</td>
+<td>25.3 years</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="growth-rate-vs-population-size" class="slide level2">
+<h2>Growth rate vs population size</h2>
+<p>Growth <strong>rate</strong> over population <strong>size</strong> increases proportionally — not absolutely.</p>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-exp-roc-1.png" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-exp-roc-2.png" width="480"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="exponential-growth-summary" class="slide level2">
+<h2>Exponential growth — summary</h2>
+<ul>
+<li><p>Exponentially growing populations have a <strong>doubling time</strong> determined by <span class="math inline">\(r\)</span> — not fixed at one year</p></li>
+<li><p><span class="math inline">\(r\)</span> is constant, so growth is unbounded</p></li>
+<li><p>Surely no species can grow exponentially forever?</p>
+<ul>
+<li><em>Correct!</em> Enter <strong>density dependence</strong> — Part 2.</li>
+</ul></li>
+</ul>
+</section>
+<section id="assumptions-of-the-exponential-model" class="slide level2" data-background-color="#09414d">
+<h2>Assumptions of the exponential model</h2>
+<div style="text-align: center;">
+<p>Take 5 minutes to discuss the assumptions of the exponential growth model</p>
+<p>( ͡° ͜ʖ ͡°)</p>
+</div>
+</section>
+<section id="part-2-logistic-population-growth" class="slide level2" data-background-color="#09414d">
+<h2>Part 2: Logistic population growth</h2>
+<div style="text-align: center;">
+<p>Density dependent growth <span class="math display">\[\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)\]</span></p>
+</div>
+</section>
+<section id="logistic-growth" class="slide level2">
+<h2>Logistic growth</h2>
+<p>Populations do not grow forever — they reach a <strong>carrying capacity</strong> (<span class="math inline">\(K\)</span>).</p>
+<p><span class="math inline">\(K\)</span> = the maximum population size supported by available resources (food, shelter, space).</p>
+<p><span class="math display">\[\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)\]</span></p>
+<p><span class="math inline">\(N\)</span> = population size &nbsp;&nbsp;&nbsp; <span class="math inline">\(r\)</span> = intrinsic rate of increase &nbsp;&nbsp;&nbsp; <span class="math inline">\(K\)</span> = carrying capacity</p>
+</section>
+<section id="logistic-growth-1" class="slide level2">
+<h2>Logistic growth</h2>
+<p>The term <span class="math inline">\(\left(1 - \frac{N}{K}\right)\)</span> acts as a <strong>density penalty</strong>:</p>
+<ul>
+<li>Crowded populations incur a large penalty; sparse populations incur a small one.</li>
+</ul>
+<p><span class="math display">\[\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)\]</span></p>
+<div class="fragment">
+<ul>
+<li><p>When <span class="math inline">\(N = K\)</span>: <span class="math inline">\(\quad\frac{N}{K} = 1\)</span>, so <span class="math inline">\(\left(1 - \frac{N}{K}\right) = 0\)</span>, and <span class="math inline">\(\frac{dN}{dt} = 0\)</span></p></li>
+<li><p>The population stabilises at <span class="math inline">\(K\)</span></p></li>
+</ul>
+</div>
+</section>
+<section id="logistic-growth-2" class="slide level2">
+<h2>Logistic growth</h2>
+<p>When <span class="math inline">\(N\)</span> is small relative to <span class="math inline">\(K\)</span>, the penalty is small and growth is nearly exponential.</p>
+<p><span class="math display">\[\frac{dN}{dt}=rN\left(1- \frac{N}{K} \right)\]</span></p>
+<div class="fragment">
+<p>As <span class="math inline">\(N\)</span> grows, a larger fraction of capacity is used and the penalty increases:</p>
+<ul>
+<li><span class="math inline">\(K = 100\)</span>, <span class="math inline">\(N = 7\)</span>: &nbsp; unused capacity <span class="math inline">\(= 1 - (7/100) = 0.93\)</span> &nbsp; → growing at 93% of exponential rate</li>
+<li><span class="math inline">\(K = 100\)</span>, <span class="math inline">\(N = 98\)</span>: unused capacity <span class="math inline">\(= 1 - (98/100) = 0.02\)</span> → growing at 2% of exponential rate</li>
+</ul>
+</div>
+<div class="fragment">
+<p>The <strong>maximum growth rate</strong> occurs at <span class="math inline">\(N = K/2\)</span></p>
+</div>
+</section>
+<section id="logistic-growth-3" class="slide level2">
+<h2>Logistic growth</h2>
+<p><em>Thanos should have studied population ecology</em></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p>If a species is at carrying capacity, halving the population maximises its growth rate.</p></li>
+<li><p>But species differ in their <span class="math inline">\(r\)</span> and <span class="math inline">\(K\)</span> — the effect of halving is not equal across all species.</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="pop_growth_files/thanos.jpg" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="logistic-growth-4" class="slide level2">
+<h2>Logistic growth</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><em>Paramecium</em> growing to capacity.</p>
+<p><img data-src="pop_growth_files/paramecium.jpg"></p>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="pop_growth_files/figure-revealjs/plot-logistic-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="logistic-growth-5" class="slide level2">
+<h2>Logistic growth</h2>
+<div style="text-align: center;">
+<p><img data-src="pop_growth_files/yeast_seal.png" style="width:60.0%"></p>
+</div>
+</section>
+<section id="logistic-growth-discrete-form" class="slide level2">
+<h2>Logistic growth — discrete form</h2>
+<p>The <strong>discrete</strong> logistic equation gives population size at the next time-step:</p>
+<p><span class="math display">\[N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)\]</span></p>
+<p><span class="math inline">\(N_t\)</span> = population size at time <span class="math inline">\(t\)</span> &nbsp;&nbsp;&nbsp; <span class="math inline">\(r_d\)</span> = discrete growth rate &nbsp;&nbsp;&nbsp; <span class="math inline">\(K\)</span> = carrying capacity</p>
+<div class="fragment">
+<p>Unlike the continuous form (which gives rate of change), the discrete form gives an <strong>absolute population size</strong>.</p>
+</div>
+</section>
+<section id="logistic-growth-worked-example" class="slide level2">
+<h2>Logistic growth — worked example</h2>
+<p><span class="math display">\[N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)\]</span></p>
+<div class="fragment">
+<p><span class="math display">\[N_{t+1} = 100 + 0.05 \times 100 \left(1- \frac{100}{200} \right)\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[N_{t+1} = 102.5\]</span></p>
+</div>
+<div class="fragment">
+<p>Compare with the exponential model: <span class="math inline">\(N_{t+1} = 105\)</span></p>
+<p>The density penalty has already reduced growth by 2.5 individuals.</p>
+</div>
+</section>
+<section id="logistic-growth-rate-vs-size" class="slide level2">
+<h2>Logistic growth — rate vs size</h2>
+<p>Unlike exponential growth, the logistic growth rate peaks at <span class="math inline">\(K/2\)</span> and returns to zero at <span class="math inline">\(K\)</span>.</p>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-logistic-roc-1.png" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-logistic-roc-2.png" width="480"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="logistic-vs-exponential-growth-rates" class="slide level2">
+<h2>Logistic vs exponential growth rates</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Logistic</strong> — rate vs population size</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Exponential</strong> — rate vs population size</p>
+</div></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-log-vs-exp-1.png" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-log-vs-exp-2.png" width="480"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="assumptions-of-the-logistic-model" class="slide level2" data-background-color="#09414d">
+<h2>Assumptions of the logistic model</h2>
+<div style="text-align: center;">
+<p>Take 5 minutes to discuss the assumptions of the logistic growth model</p>
+<p>(ᵔᴥᵔ)</p>
+</div>
+</section>
+<section id="part-3-introducing-stochasticity" class="slide level2" data-background-color="#09414d">
+<h2>Part 3: Introducing stochasticity</h2>
+<div style="text-align: center;">
+<p>Non-deterministic growth</p>
+</div>
+</section>
+<section id="stochasticity" class="slide level2">
+<h2>Stochasticity</h2>
+<p>Everything so far has been <em>entirely</em> deterministic — but the real world is not.</p>
+<p><span class="math display">\[N_{t+1} = N_t + r_dN_t\left(1- \frac{N_t}{K} \right)\]</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Environmental stochasticity</strong></p>
+<ul>
+<li>Populations go through good and bad years</li>
+<li>Represented by adding variability to <span class="math inline">\(r_d\)</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Demographic stochasticity</strong></p>
+<ul>
+<li>By chance, births or deaths may cluster in time</li>
+<li>Represented by making birth and death probabilities explicit in <span class="math inline">\(r\)</span></li>
+</ul>
+</div></div>
+<div class="fragment">
+<p>Variability can also be incorporated into <span class="math inline">\(K\)</span>.</p>
+<p>We will focus on <em>environmental stochasticity</em>.</p>
+</div>
+</section>
+<section id="stochasticity-1" class="slide level2">
+<h2>Stochasticity</h2>
+<p>Even with a <strong>positive average growth rate</strong>, stochasticity can drive extinction.</p>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-stochastic-1.png" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="pop_growth_files/figure-revealjs/plot-stochastic-2.png" width="480"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="recap" class="slide level2">
+<h2>Recap</h2>
+<p>We have covered:</p>
+<ul>
+<li><p>Discrete and continuous forms of <strong>exponential growth</strong></p>
+<ul>
+<li>also known as <strong>density independent</strong> growth</li>
+</ul></li>
+<li><p>Discrete and continuous forms of <strong>logistic growth</strong></p>
+<ul>
+<li>also known as <strong>density dependent</strong> growth</li>
+</ul></li>
+<li><p><strong>Stochastic</strong> logistic growth</p></li>
+<li><p>Model <strong>assumptions</strong></p></li>
+</ul>
+</section>
+<section id="key-points" class="slide level2">
+<h2>Key points</h2>
+<ul>
+<li><p><strong>Exponential growth</strong>: population grows in proportion to its size, indefinitely</p></li>
+<li><p><strong>Logistic growth</strong>: a density penalty slows growth as <span class="math inline">\(N\)</span> approaches <span class="math inline">\(K\)</span></p>
+<ul>
+<li>Growth rate is greatest at <span class="math inline">\(N = K/2\)</span></li>
+</ul></li>
+<li><p><strong>Stochasticity</strong>: can drive extinction even when average growth is positive; deterministic models cannot capture this</p></li>
+<li><p><strong>Assumptions matter</strong> — think critically about these for your assignment</p></li>
+</ul>
+</section>
+<section id="things-to-be-aware-of" class="slide level2">
+<h2>Things to be aware of</h2>
+<ul>
+<li><p>Continuous vs discrete equations use different notation and can give different results for large <span class="math inline">\(r\)</span></p></li>
+<li><p>Many variants of population growth models exist, e.g.: <span class="math display">\[N_{t+1} = \lambda N_t\left(1- \frac{N_t}{K} \right)\]</span> Concepts transfer, but parameter meanings and outputs may differ.</p></li>
+<li><p>This is just the beginning — models extend to age-structured populations, competition, predation, and more.</p></li>
+</ul>
+</section>
+<section id="tips-for-the-assignment" class="slide level2">
+<h2>Tips for the assignment</h2>
+<ul>
+<li><p>Attend labs and office hours</p></li>
+<li><p>Focus on the two key graphs: population size vs time, and growth rate vs population size</p></li>
+<li><p>Use the Shiny app to explore parameter effects — but do not submit screenshots as figures</p></li>
+<li><p>Check your outputs for logical sense: if numbers look extreme, trace back your inputs and equations</p></li>
+</ul>
+</section>
+<section id="go-forth-and-model" class="slide level2" data-background-color="#09414d">
+<h2>Go forth and model!</h2>
+<div style="text-align: center;">
+<p>\ (•◡•) /</p>
+</div>
+<!-- pagedown::chrome_print("pop_growth.qmd", "growth_app/www/pop_growth.pdf") -->
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>Population Ecology | Growth Models</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="pop_growth_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="pop_growth_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="pop_growth_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="pop_growth_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="pop_growth_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="pop_growth_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="pop_growth_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="pop_growth_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="pop_growth_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="pop_growth_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="pop_growth_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': true,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
+            }
+            return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
